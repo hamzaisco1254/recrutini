@@ -1,0 +1,110 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Pack {
+  CV
+  LINKEDIN
+  INTERVIEW
+  FULL
+}
+
+enum Language {
+  EN
+  FR
+}
+
+enum OrderStatus {
+  NEW
+  IN_PROGRESS
+  DELIVERED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  UNPAID
+  PAID
+  REFUNDED
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+model Order {
+  id            String        @id @default(cuid())
+  ref           String        @unique
+  name          String
+  email         String
+  phone         String?
+  pack          Pack
+  amountDt      Int
+  status        OrderStatus   @default(NEW)
+  payment       PaymentStatus @default(UNPAID)
+  targetRole    String?
+  cvLink        String?
+  linkedinUrl   String?
+  jobPostingUrl String?
+  notes         String?
+  adminNotes    String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  booking       Booking?
+
+  @@index([email])
+  @@index([createdAt])
+}
+
+model Booking {
+  id        String        @id @default(cuid())
+  orderId   String        @unique
+  order     Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  date      String // YYYY-MM-DD in Africa/Tunis
+  time      String // HH:mm
+  language  Language      @default(EN)
+  status    BookingStatus @default(PENDING)
+  meetingUrl String?
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  report    Report?
+
+  @@index([date, time])
+}
+
+model Report {
+  id              String   @id @default(cuid())
+  bookingId       String   @unique
+  booking         Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  interviewer     String   @default("")
+  overall         Float    @default(0)
+  scores          Json     @default("[]")
+  whatLanded      String   @default("")
+  toFix           Json     @default("[]")
+  rewrittenTitle  String   @default("")
+  rewrittenAnswer String   @default("")
+  recordingUrl    String?
+  reportUrl       String?
+  published       Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Setting {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt
+}
+
+model Blackout {
+  id   String @id @default(cuid())
+  date String @unique // YYYY-MM-DD
+}

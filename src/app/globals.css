@@ -1,0 +1,235 @@
+:root {
+  --ink: #14140f;
+  --black: #111111;
+  --yellow: #ffd22f;
+  --yellow-dark: #f0c214;
+  --gold: #c9a400;
+  --paper: #f7f6f2;
+  --paper-alt: #f1efe7;
+  --line: #e4e2da;
+  --line-2: #dcd9ce;
+  --line-3: #cfccc0;
+  --text: #3d3b34;
+  --muted: #56544c;
+  --faint: #86837a;
+  --on-dark: #e6e4dc;
+  --on-dark-muted: #a9a69c;
+  --dark-line: #2e2e2e;
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.serif {
+  font-family: var(--font-serif), Georgia, serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.wrap {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 13px 24px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+}
+
+.btn-primary {
+  background: var(--black);
+  color: var(--yellow);
+}
+.btn-primary:hover {
+  background: #000;
+}
+
+.btn-yellow {
+  background: var(--yellow);
+  color: var(--black);
+  font-weight: 700;
+}
+.btn-yellow:hover {
+  background: var(--yellow-dark);
+}
+
+.btn-ghost {
+  border-color: var(--line-3);
+  color: #26251f;
+  background: transparent;
+}
+.btn-ghost:hover {
+  border-color: var(--black);
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+.field {
+  width: 100%;
+  border: 1px solid var(--line-2);
+  border-radius: 6px;
+  padding: 12px 14px;
+  font-family: inherit;
+  font-size: 15px;
+  color: #26251f;
+  background: #fcfcfa;
+}
+.field:focus {
+  outline: 2px solid var(--yellow);
+  outline-offset: 1px;
+}
+
+label.lbl {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-bottom: 8px;
+}
+
+.chip {
+  border: 1px solid var(--line-2);
+  background: #fcfcfa;
+  color: #26251f;
+  font-family: inherit;
+  font-size: 14.5px;
+  font-weight: 600;
+  padding: 11px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.chip[data-on="true"] {
+  background: var(--black);
+  border-color: var(--black);
+  color: #fff;
+}
+.chip:disabled {
+  background: #f4f3ee;
+  color: #b5b2a9;
+  cursor: not-allowed;
+  text-decoration: line-through;
+}
+
+.grid-auto {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+table.data {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14.5px;
+}
+table.data th {
+  text-align: left;
+  font-size: 11.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--faint);
+  font-weight: 600;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+table.data td {
+  padding: 12px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+  color: var(--text);
+}
+table.data tr:hover td {
+  background: #fbfaf6;
+}
+
+.badge {
+  display: inline-block;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 4px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--line-2);
+  background: #fff;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.badge[data-tone="paid"],
+.badge[data-tone="confirmed"],
+.badge[data-tone="delivered"],
+.badge[data-tone="completed"] {
+  background: #eef7ec;
+  border-color: #cfe6c9;
+  color: #2f6b28;
+}
+.badge[data-tone="unpaid"],
+.badge[data-tone="pending"],
+.badge[data-tone="new"] {
+  background: var(--yellow);
+  border-color: var(--yellow);
+  color: var(--black);
+}
+.badge[data-tone="cancelled"],
+.badge[data-tone="refunded"] {
+  background: #f6eeee;
+  border-color: #e3cccc;
+  color: #8a3b3b;
+}
+
+.scroll-x {
+  overflow-x: auto;
+}
+
+@media (max-width: 720px) {
+  .hide-sm {
+    display: none !important;
+  }
+}
