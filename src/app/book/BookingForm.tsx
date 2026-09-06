@@ -2,7 +2,7 @@
 
 import { useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { PACKS, PACK_LIST, STUDENT_OFFER, type PackKey } from "@/lib/brand";
+import { BRAND, PACKS, PACK_LIST, STUDENT_OFFER, type PackKey } from "@/lib/brand";
 import type { DaySlots } from "@/lib/schedule";
 import { submitBooking } from "./actions";
 
@@ -64,7 +64,7 @@ export default function BookingForm({
       setCardName(file.name);
     } catch {
       setUploadError(
-        "We couldn't upload that file. Try again, or email your card to hello@recruitini.tn and we'll sort it out.",
+        `We couldn't upload that file. Try again, or email your card to ${BRAND.email} and we'll sort it out.`,
       );
     } finally {
       setUploading(false);

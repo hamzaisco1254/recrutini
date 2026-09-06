@@ -2,7 +2,7 @@ export const BRAND = {
   name: "Recruitini.tn",
   shortName: "Recruitini",
   tagline: "HR Services",
-  email: "hello@recruitini.tn",
+  email: "hamzamrabet1253@gmail.com",
   timezone: "Africa/Tunis",
   tzLabel: "Africa / Tunis",
 };
