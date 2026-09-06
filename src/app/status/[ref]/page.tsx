@@ -74,11 +74,13 @@ export default async function StatusPage({ params }: { params: Promise<{ ref: st
             <Row
               label="Payment"
               value={
-                order.payment === "PAID"
-                  ? `Received — ${order.amountDt} dt`
-                  : order.payment === "REFUNDED"
-                    ? "Refunded"
-                    : `Pending — ${order.amountDt} dt`
+                order.amountDt === 0
+                  ? "Free — student offer, nothing to pay"
+                  : order.payment === "PAID"
+                    ? `Received — ${order.amountDt} dt`
+                    : order.payment === "REFUNDED"
+                      ? "Refunded"
+                      : `Pending — ${order.amountDt} dt`
               }
             />
             {order.booking && (
@@ -101,7 +103,7 @@ export default async function StatusPage({ params }: { params: Promise<{ ref: st
             )}
           </section>
 
-          {order.payment !== "PAID" && order.status !== "CANCELLED" && (
+          {order.payment !== "PAID" && order.amountDt > 0 && order.status !== "CANCELLED" && (
             <section
               className="card pad-card"
               style={{ background: "#F1EFE7", borderLeft: "4px solid #FFD22F" }}
@@ -130,6 +132,25 @@ export default async function StatusPage({ params }: { params: Promise<{ ref: st
             </section>
           )}
         </div>
+
+        {order.isStudent && order.status !== "CANCELLED" && (
+          <section
+            className="card pad-card"
+            style={{
+              marginTop: 20,
+              background: "#F1EFE7",
+              borderLeft: "4px solid #FFD22F",
+            }}
+          >
+            <h2 className="serif" style={{ fontSize: 21, margin: "0 0 10px" }}>
+              Student offer
+            </h2>
+            <p style={{ fontSize: 15, lineHeight: 1.62, color: "#3D3B34", margin: 0 }}>
+              Your student card is with us and this file is free. Nothing to pay, no card details.
+              If anything is unclear on the card we will write to you at {order.email}.
+            </p>
+          </section>
+        )}
 
         {showReport && report && order.booking && (
           <div style={{ marginTop: 28 }}>

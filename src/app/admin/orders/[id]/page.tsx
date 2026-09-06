@@ -86,6 +86,34 @@ export default async function AdminOrderDetail({ params }: { params: Promise<{ i
 
           <div style={{ marginTop: 24, paddingTop: 18, borderTop: "1px solid #EDEBE3" }}>
             <h3 className="eyebrow">What the client sent</h3>
+            {order.isStudent && (
+              <div className="student-proof">
+                <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+                  <span className="badge" data-tone="student">
+                    STUDENT — FREE
+                  </span>
+                  {order.studentCardUrl && (
+                    <a
+                      href={order.studentCardUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="btn btn-ghost"
+                      style={{ fontSize: 13, padding: "8px 14px", minHeight: 0 }}
+                    >
+                      Open student card
+                    </a>
+                  )}
+                </div>
+                {order.studentCardUrl && /\.(jpe?g|png|webp|heic)$/i.test(order.studentCardUrl) && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={order.studentCardUrl}
+                    alt="Student card submitted with this booking"
+                    className="student-proof-img"
+                  />
+                )}
+              </div>
+            )}
             <Detail label="Target role" value={order.targetRole} />
             <Detail label="CV link" value={order.cvLink} link />
             <Detail label="LinkedIn" value={order.linkedinUrl} link />

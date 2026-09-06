@@ -13,6 +13,7 @@ const FILTERS = [
   { key: "upcoming", label: "Upcoming sessions" },
   { key: "active", label: "In progress" },
   { key: "done", label: "Delivered" },
+  { key: "students", label: "Students" },
 ];
 
 export default async function AdminOrdersPage({
@@ -33,7 +34,9 @@ export default async function AdminOrdersPage({
           ? { status: "DELIVERED" as const }
           : filter === "upcoming"
             ? { booking: { is: { date: { gte: today }, status: { not: "CANCELLED" as const } } } }
-            : {};
+            : filter === "students"
+              ? { isStudent: true }
+              : {};
 
   let orders: Awaited<ReturnType<typeof loadOrders>> = [];
   let dbError = false;
@@ -90,7 +93,7 @@ export default async function AdminOrdersPage({
                     {o.ref}
                   </Link>
                   <span style={{ fontSize: 13.5, color: "#86837A", whiteSpace: "nowrap" }}>
-                    {packLabel(o.pack)} · {o.amountDt} dt
+                    {packLabel(o.pack)} · {o.amountDt === 0 ? "free" : `${o.amountDt} dt`}
                   </span>
                 </div>
                 <div style={{ fontWeight: 600, color: "#26251F", marginTop: 8 }}>{o.name}</div>
@@ -104,8 +107,13 @@ export default async function AdminOrdersPage({
                   </div>
                 )}
                 <div className="rec-badges">
+                  {o.isStudent && (
+                    <span className="badge" data-tone="student">
+                      STUDENT
+                    </span>
+                  )}
                   <span className="badge" data-tone={o.payment.toLowerCase()}>
-                    {o.payment}
+                    {o.amountDt === 0 ? "FREE" : o.payment}
                   </span>
                   <span className="badge" data-tone={o.status.toLowerCase().replace("_", "")}>
                     {o.status.replace("_", " ")}
@@ -124,7 +132,7 @@ export default async function AdminOrdersPage({
                   >
                     Open
                   </Link>
-                  {o.payment === "UNPAID" && o.status !== "CANCELLED" && (
+                  {o.payment === "UNPAID" && o.amountDt > 0 && o.status !== "CANCELLED" && (
                     <form action={markPaid} style={{ flex: 1, display: "flex" }}>
                       <input type="hidden" name="id" value={o.id} />
                       <button className="btn btn-yellow" style={{ flex: 1, fontSize: 14 }}>
@@ -171,7 +179,9 @@ export default async function AdminOrdersPage({
                     </td>
                     <td style={{ whiteSpace: "nowrap" }}>
                       {packLabel(o.pack)}
-                      <div style={{ fontSize: 13, color: "#86837A" }}>{o.amountDt} dt</div>
+                      <div style={{ fontSize: 13, color: "#86837A" }}>
+                        {o.amountDt === 0 ? "free" : `${o.amountDt} dt`}
+                      </div>
                     </td>
                     <td style={{ whiteSpace: "nowrap" }}>
                       {o.booking ? (
@@ -187,8 +197,15 @@ export default async function AdminOrdersPage({
                     </td>
                     <td>
                       <span className="badge" data-tone={o.payment.toLowerCase()}>
-                        {o.payment}
+                        {o.amountDt === 0 ? "FREE" : o.payment}
                       </span>
+                      {o.isStudent && (
+                        <div style={{ marginTop: 6 }}>
+                          <span className="badge" data-tone="student">
+                            STUDENT
+                          </span>
+                        </div>
+                      )}
                     </td>
                     <td>
                       <span className="badge" data-tone={o.status.toLowerCase().replace("_", "")}>
@@ -203,7 +220,7 @@ export default async function AdminOrdersPage({
                       )}
                     </td>
                     <td style={{ whiteSpace: "nowrap" }}>
-                      {o.payment === "UNPAID" && o.status !== "CANCELLED" && (
+                      {o.payment === "UNPAID" && o.amountDt > 0 && o.status !== "CANCELLED" && (
                         <form action={markPaid}>
                           <input type="hidden" name="id" value={o.id} />
                           <button className="btn btn-yellow" style={{ fontSize: 13, padding: "8px 14px" }}>

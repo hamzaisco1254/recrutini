@@ -2,17 +2,19 @@
 
 import { useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { PACKS, PACK_LIST, type PackKey } from "@/lib/brand";
+import { PACKS, PACK_LIST, STUDENT_OFFER, type PackKey } from "@/lib/brand";
 import type { DaySlots } from "@/lib/schedule";
 import { submitBooking } from "./actions";
 
 export default function BookingForm({
   days,
   initialPack,
+  initialStudent = false,
   tzLabel,
 }: {
   days: DaySlots[];
   initialPack: PackKey;
+  initialStudent?: boolean;
   tzLabel: string;
 }) {
   const router = useRouter();
@@ -32,17 +34,50 @@ export default function BookingForm({
   });
   const [error, setError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
+  const [isStudent, setIsStudent] = useState(initialStudent && STUDENT_OFFER.on);
+  const [cardUrl, setCardUrl] = useState("");
+  const [cardName, setCardName] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
 
   const needsSlot = PACKS[pack].includesInterview;
   const day = days[dateIdx];
+  const price = isStudent ? 0 : PACKS[pack].price;
+  const priceLabel = isStudent ? "free — student offer" : `${price} dt`;
+
+  async function onCardChosen(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadError(null);
+    if (file.size > 6 * 1024 * 1024) {
+      setUploadError("That file is over 6 MB. Please upload a smaller photo.");
+      return;
+    }
+    setUploading(true);
+    try {
+      const { upload } = await import("@vercel/blob/client");
+      const blob = await upload(`student-cards/${file.name}`, file, {
+        access: "public",
+        handleUploadUrl: "/api/student-card",
+      });
+      setCardUrl(blob.url);
+      setCardName(file.name);
+    } catch {
+      setUploadError(
+        "We couldn't upload that file. Try again, or email your card to hello@recruitini.tn and we'll sort it out.",
+      );
+    } finally {
+      setUploading(false);
+    }
+  }
 
   const summary = useMemo(() => {
-    if (!needsSlot) return `${PACKS[pack].title} · ${PACKS[pack].price} dt`;
+    if (!needsSlot) return `${PACKS[pack].title} · ${priceLabel}`;
     if (!day || !time) return "Pick a date and a time to continue.";
     return `${day.dow} ${day.num} ${day.month}, ${time} · 30 min · ${
       language === "EN" ? "English" : "Français"
-    } · ${PACKS[pack].price} dt`;
-  }, [needsSlot, pack, day, time, language]);
+    } · ${priceLabel}`;
+  }, [needsSlot, pack, day, time, language, priceLabel]);
 
   function set<K extends keyof typeof form>(key: K, value: string) {
     setForm((f) => ({ ...f, [key]: value }));
@@ -55,6 +90,8 @@ export default function BookingForm({
       const res = await submitBooking({
         pack,
         ...form,
+        isStudent,
+        studentCardUrl: cardUrl,
         language,
         date: needsSlot ? day?.date ?? "" : "",
         time: needsSlot ? time : "",
@@ -107,7 +144,17 @@ export default function BookingForm({
                   {p.title}
                 </div>
                 <div style={{ fontSize: 14, marginTop: 6, opacity: 0.85 }}>
-                  {p.price} dt{p.duration ? ` · ${p.duration}` : ""}
+                  {isStudent ? (
+                    <>
+                      <span style={{ textDecoration: "line-through", opacity: 0.6 }}>
+                        {p.price} dt
+                      </span>{" "}
+                      free
+                    </>
+                  ) : (
+                    `${p.price} dt`
+                  )}
+                  {p.duration ? ` · ${p.duration}` : ""}
                 </div>
               </button>
             );
@@ -132,6 +179,79 @@ export default function BookingForm({
             </li>
           ))}
         </ul>
+
+        {STUDENT_OFFER.on && (
+          <div className="student-box">
+            <label className="student-check">
+              <input
+                type="checkbox"
+                checked={isStudent}
+                onChange={(e) => {
+                  setIsStudent(e.target.checked);
+                  if (!e.target.checked) {
+                    setCardUrl("");
+                    setCardName("");
+                    setUploadError(null);
+                  }
+                }}
+              />
+              <span>
+                <strong>I&apos;m a student looking for a PFE</strong>
+                <span className="student-sub">
+                  Everything is free while the offer runs. Upload your student card and we confirm
+                  your file the same day.
+                </span>
+              </span>
+            </label>
+
+            {isStudent && (
+              <div className="student-upload">
+                <label className="lbl" style={{ marginBottom: 10 }}>
+                  Student card {cardUrl ? "— uploaded" : "(photo or PDF, max 6 MB)"}
+                </label>
+                {cardUrl ? (
+                  <div className="student-done">
+                    <span aria-hidden="true">✓</span>
+                    <span style={{ marginRight: "auto", wordBreak: "break-all" }}>{cardName}</span>
+                    <button
+                      type="button"
+                      className="btn btn-ghost"
+                      style={{ fontSize: 13, padding: "8px 14px", minHeight: 0 }}
+                      onClick={() => {
+                        setCardUrl("");
+                        setCardName("");
+                      }}
+                    >
+                      Replace
+                    </button>
+                  </div>
+                ) : (
+                  <input
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp,image/heic,application/pdf"
+                    onChange={onCardChosen}
+                    disabled={uploading}
+                    className="field"
+                    style={{ padding: 10 }}
+                  />
+                )}
+                {uploading && (
+                  <p style={{ fontSize: 13.5, color: "#56544C", margin: "10px 0 0" }}>
+                    Uploading…
+                  </p>
+                )}
+                {uploadError && (
+                  <p style={{ fontSize: 13.5, color: "#8A3B3B", margin: "10px 0 0" }}>
+                    {uploadError}
+                  </p>
+                )}
+                <p style={{ fontSize: 12.5, color: "#86837A", margin: "10px 0 0" }}>
+                  We use it only to confirm you are a student, and delete it on request.
+                </p>
+              </div>
+            )}
+          </div>
+        )}
       </section>
 
       {/* Slot picker */}
@@ -365,13 +485,17 @@ export default function BookingForm({
           <button
             type="submit"
             className="btn btn-primary btn-block-sm submit-btn"
-            disabled={pending || (needsSlot && (!day || !time))}
+            disabled={
+              pending || uploading || (needsSlot && (!day || !time)) || (isStudent && !cardUrl)
+            }
           >
             {pending ? "Sending..." : needsSlot ? "Request this session" : "Send my request"}
           </button>
         </div>
         <p style={{ fontSize: 13, color: "#86837A", marginTop: 12 }}>
-          Nothing is charged online. We confirm your slot by email with payment instructions.
+          {isStudent
+            ? "Nothing to pay. We check your student card and confirm your file the same day."
+            : "Nothing is charged online. We confirm your slot by email with payment instructions."}
         </p>
       </section>
     </form>

@@ -8,11 +8,13 @@ export const dynamic = "force-dynamic";
 export default async function BookPage({
   searchParams,
 }: {
-  searchParams: Promise<{ pack?: string }>;
+  searchParams: Promise<{ pack?: string; student?: string }>;
 }) {
-  const { pack } = await searchParams;
+  const { pack, student } = await searchParams;
   const initialPack: PackKey =
     pack && pack.toUpperCase() in PACKS ? (pack.toUpperCase() as PackKey) : "FULL";
+
+  const initialStudent = student === "1" || student === "true";
 
   let days: Awaited<ReturnType<typeof buildCalendar>> = [];
   let dbError = false;
@@ -30,7 +32,7 @@ export default async function BookPage({
         <h1
           className="serif"
           style={{
-            fontSize: "clamp(30px,3.4vw,44px)",
+            fontSize: "clamp(27px,5.5vw,44px)",
             letterSpacing: "-0.02em",
             margin: "12px 0 8px",
           }}
@@ -52,7 +54,12 @@ export default async function BookPage({
           </div>
         )}
 
-        <BookingForm days={days} initialPack={initialPack} tzLabel={BRAND.tzLabel} />
+        <BookingForm
+          days={days}
+          initialPack={initialPack}
+          initialStudent={initialStudent}
+          tzLabel={BRAND.tzLabel}
+        />
       </main>
       <SiteFooter />
     </div>

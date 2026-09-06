@@ -9,8 +9,7 @@ datasource db {
 }
 
 enum Pack {
-  CV
-  LINKEDIN
+  CV_LINKEDIN
   INTERVIEW
   FULL
 }
@@ -56,6 +55,8 @@ model Order {
   jobPostingUrl String?
   notes         String?
   adminNotes    String?
+  isStudent      Boolean      @default(false)
+  studentCardUrl String?
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
   booking       Booking?

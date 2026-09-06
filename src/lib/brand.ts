@@ -27,7 +27,7 @@ export const COLORS = {
   darkLine: "#2E2E2E",
 };
 
-export type PackKey = "CV" | "LINKEDIN" | "INTERVIEW" | "FULL";
+export type PackKey = "CV_LINKEDIN" | "INTERVIEW" | "FULL";
 
 export const PACKS: Record<
   PackKey,
@@ -43,41 +43,29 @@ export const PACKS: Record<
     bullets: string[];
   }
 > = {
-  CV: {
-    key: "CV",
+  CV_LINKEDIN: {
+    key: "CV_LINKEDIN",
     number: "Pack 01",
-    title: "CV Optimization",
-    price: 10,
+    title: "CV & LinkedIn Optimization",
+    price: 20,
     includesInterview: false,
     bullets: [
-      "Full rewrite: structure, wording, impact statements",
+      "Full CV rewrite: structure, wording, impact statements",
       "ATS-friendly formatting, editable Word + PDF",
-      "Tailored to one target role or sector",
-      "Two revision rounds",
-    ],
-  },
-  LINKEDIN: {
-    key: "LINKEDIN",
-    number: "Pack 02",
-    title: "LinkedIn Optimization",
-    price: 10,
-    includesInterview: false,
-    bullets: [
-      "Headline, About section and experience rewritten",
+      "LinkedIn headline, About and experience rewritten",
       "Keyword strategy so recruiters actually find you",
-      "Banner, photo and settings review",
-      "Two revision rounds",
+      "Two revision rounds on both",
     ],
   },
   INTERVIEW: {
     key: "INTERVIEW",
-    number: "Pack 03",
+    number: "Pack 02",
     title: "Mock Interview",
     price: 40,
     duration: "30 min",
     includesInterview: true,
     bullets: [
-      "30-minute live simulation for your target role",
+      "A live simulation for the exact role you are applying for",
       "Written feedback scored across five competencies",
       "Recording of the session, yours to keep",
       "One follow-up question after you read the report",
@@ -85,22 +73,35 @@ export const PACKS: Record<
   },
   FULL: {
     key: "FULL",
-    number: "Pack 04",
+    number: "Pack 03",
     title: "Full Pack",
     price: 50,
     strike: 60,
     featured: true,
     includesInterview: true,
     bullets: [
-      "CV rewrite and LinkedIn rebuild",
-      "30-minute interview simulation and feedback report",
-      "Answer scripts for the questions you struggled with",
-      "Everything delivered in one coordinated file",
+      "Coaching sessions, one to one",
+      "Mock interviews for your target roles",
+      "CV review and rewrite",
+      "Role review: whether the job actually fits you",
+      "Written feedback after every session",
+      "Continuous follow-up until you land the role",
     ],
   },
 };
 
-export const PACK_LIST = [PACKS.CV, PACKS.LINKEDIN, PACKS.INTERVIEW, PACKS.FULL];
+export const PACK_LIST = [PACKS.CV_LINKEDIN, PACKS.INTERVIEW, PACKS.FULL];
+
+/** Students looking for a PFE pay nothing while the offer runs. */
+export const STUDENT_OFFER = {
+  on: true,
+  title: "Free for students, right now",
+  body: "If you are a student looking for a PFE, every pack above is free while we build our track record in Tunisia. Pick the pack you want, upload a photo of your student card when you book, and we confirm your file the same day. No payment, no card details.",
+  short: "Students looking for a PFE: free, just upload your student card.",
+};
+
+export const CREDENTIALS =
+  "You work with experienced recruiters from the IT field and with occupational psychologists — qualified, with international experience.";
 
 export function packLabel(key: string) {
   return PACKS[key as PackKey]?.title ?? key;

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
-import { BRAND, PACK_LIST } from "@/lib/brand";
+import { BRAND, CREDENTIALS, PACK_LIST, STUDENT_OFFER } from "@/lib/brand";
 
 export const dynamic = "force-static";
 
@@ -23,7 +23,15 @@ const FAQS = [
   },
   {
     q: "How do I pay?",
-    a: "Book first, pay after. You receive payment instructions with your confirmation — bank transfer, D17 or cash before the session. Your slot is held for 48 hours.",
+    a: "Book first, pay after. You receive payment instructions with your confirmation — bank transfer, D17 or cash before the session. Your slot is held for 48 hours. Students on the free offer pay nothing at all.",
+  },
+  {
+    q: "I'm a student looking for a PFE. How does the free offer work?",
+    a: "Book the pack you want and tick the student box, then upload a photo of your student card. We check it by hand and confirm your file the same day. There is nothing to pay and we never ask for card details. The card is used only to confirm you are a student, and we delete it on request.",
+  },
+  {
+    q: "Who actually works on my file?",
+    a: "Experienced recruiters from the IT field and occupational psychologists, qualified and with international experience. The person who rewrites your CV is the same kind of person who reads it on the hiring side.",
   },
 ];
 
@@ -93,6 +101,12 @@ export default function LandingPage() {
           <div className="wrap sec-lg hero-grid">
             <div>
               <div className="hero-eyebrow">Bilingual EN / FR</div>
+              {STUDENT_OFFER.on && (
+                <Link href="#students" className="hero-flag">
+                  <span className="hero-flag-tag">Free</span>
+                  <span>{STUDENT_OFFER.short}</span>
+                </Link>
+              )}
               <h1 className="serif display">
                 You have the experience. Let&apos;s make it{" "}
                 <em>read that way.</em>
@@ -155,10 +169,7 @@ export default function LandingPage() {
                 </div>
               ))}
               <div className="stat" style={{ borderLeft: "none" }}>
-                <p className="stat-note">
-                  Your documents are reviewed by former in-house recruiters and talent partners, not
-                  generalist writers.
-                </p>
+                <p className="stat-note">{CREDENTIALS}</p>
               </div>
             </div>
           </div>
@@ -171,8 +182,8 @@ export default function LandingPage() {
             <div>
               <h2 className="serif h2">Choose your pack</h2>
               <p style={{ fontSize: 17, color: "#56544C", maxWidth: "54ch", margin: "14px 0 0" }}>
-                Start with one document, or take the full pack and walk into your next interview
-                already having practised it.
+                Fix your CV and LinkedIn together, rehearse one interview for the role you are
+                chasing, or take the full pack and be coached all the way to the offer.
               </p>
             </div>
           </div>
@@ -266,6 +277,24 @@ export default function LandingPage() {
             Sessions available in English or French, weekdays and Saturday mornings. Payment on
             confirmation — bank transfer, D17 or cash.
           </p>
+
+          {STUDENT_OFFER.on && (
+            <div id="students" className="student-band">
+              <span className="student-flag">Free</span>
+              <div>
+                <h3 className="serif student-title">{STUDENT_OFFER.title}</h3>
+                <p className="student-body">{STUDENT_OFFER.body}</p>
+                <div className="student-actions">
+                  <Link href="/book?pack=FULL&student=1" className="btn btn-yellow btn-block-sm">
+                    Book as a student
+                  </Link>
+                  <span className="student-meta">
+                    Student card checked by hand · Deleted on request
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
         </section>
 
         {/* The simulation */}
