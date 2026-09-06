@@ -14,7 +14,7 @@ const serif = Libre_Caslon_Display({
 export const metadata: Metadata = {
   title: `${BRAND.name} — CV, LinkedIn & interview coaching`,
   description:
-    "We rewrite your CV, rebuild your LinkedIn profile, and put you through a real 30-minute interview simulation with written feedback. Bilingual EN / FR, Tunisia.",
+    "We rewrite your CV, rebuild your LinkedIn profile, and put you through a real 50-minute interview simulation with written feedback. Bilingual EN / FR, Tunisia.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

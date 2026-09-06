@@ -62,7 +62,7 @@ export const PACKS: Record<
     number: "Pack 02",
     title: "Mock Interview",
     price: 40,
-    duration: "30 min",
+    duration: "50 min",
     includesInterview: true,
     bullets: [
       "A live simulation for the exact role you are applying for",

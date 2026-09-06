@@ -70,7 +70,7 @@ const SIM_STEPS = [
   },
   {
     n: "02",
-    title: "30 minutes, video, unbroken",
+    title: "50 minutes, video, unbroken",
     body: "No pausing, no restarts. It should feel like the real thing.",
   },
   {
@@ -113,7 +113,7 @@ export default function LandingPage() {
               </h1>
               <p className="hero-lead">
                 We rewrite your CV, rebuild your LinkedIn profile, and put you through a real
-                30-minute interview simulation with written feedback. Done by recruiters who have sat
+                50-minute interview simulation with written feedback. Done by recruiters who have sat
                 on the hiring side of the table.
               </p>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 32 }}>
@@ -144,7 +144,7 @@ export default function LandingPage() {
             </div>
 
             <div className="hero-panel hide-sm">
-              <div className="serif panel-num">30 min</div>
+              <div className="serif panel-num">50 min</div>
               <p className="panel-copy">
                 A full interview simulation with a written report, before the one that counts.
               </p>
@@ -316,7 +316,7 @@ export default function LandingPage() {
                   color: "rgba(17,17,17,0.68)",
                 }}
               >
-                02 — The 30-minute simulation
+                02 — The 50-minute simulation
               </div>
               <h2 className="serif h2" style={{ margin: "20px 0 0" }}>
                 A real interview, before the one that counts

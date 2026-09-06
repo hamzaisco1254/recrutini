@@ -52,7 +52,7 @@ export default function ReportView({
             </h2>
             <div style={{ fontSize: 13.5, color: "#A9A69C", marginTop: 6 }}>
               {report.interviewer ? `Interviewer: ${report.interviewer} · ` : ""}
-              {booking.language === "EN" ? "English" : "Français"} · 30 min
+              {booking.language === "EN" ? "English" : "Français"} · 50 min
             </div>
           </div>
           <div style={{ textAlign: "right", flex: "none" }}>

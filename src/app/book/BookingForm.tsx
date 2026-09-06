@@ -74,7 +74,7 @@ export default function BookingForm({
   const summary = useMemo(() => {
     if (!needsSlot) return `${PACKS[pack].title} · ${priceLabel}`;
     if (!day || !time) return "Pick a date and a time to continue.";
-    return `${day.dow} ${day.num} ${day.month}, ${time} · 30 min · ${
+    return `${day.dow} ${day.num} ${day.month}, ${time} · 50 min · ${
       language === "EN" ? "English" : "Français"
     } · ${priceLabel}`;
   }, [needsSlot, pack, day, time, language, priceLabel]);
@@ -258,10 +258,10 @@ export default function BookingForm({
       {needsSlot && (
         <section className="card pad-card">
           <h2 className="serif" style={{ fontSize: 23, margin: 0 }}>
-            2. Your 30 minutes
+            2. Your 50 minutes
           </h2>
           <p style={{ fontSize: 15, color: "#56544C", lineHeight: 1.55, margin: "10px 0 0" }}>
-            Sessions run 30 minutes with no break. Reschedule up to 12 hours before.
+            Sessions run 50 minutes with no break. Reschedule up to 12 hours before.
           </p>
 
           <label className="lbl" style={{ marginTop: 26 }}>
