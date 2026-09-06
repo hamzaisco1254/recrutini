@@ -46,7 +46,7 @@ export default function ReportEditor({
   const toFixText = Array.isArray(report?.toFix) ? (report!.toFix as string[]).join("\n") : "";
 
   return (
-    <form action={saveReport} className="card" style={{ padding: 26 }}>
+    <form action={saveReport} className="card pad-card">
       <input type="hidden" name="bookingId" value={bookingId} />
       <input type="hidden" name="orderId" value={orderId} />
 
@@ -54,8 +54,21 @@ export default function ReportEditor({
         <h2 className="serif" style={{ fontSize: 22, margin: 0, marginRight: "auto" }}>
           Feedback report
         </h2>
-        <label style={{ fontSize: 14.5, display: "flex", alignItems: "center", gap: 8 }}>
-          <input type="checkbox" name="published" defaultChecked={report?.published ?? false} />
+        <label
+          style={{
+            fontSize: 14.5,
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+            minHeight: 44,
+          }}
+        >
+          <input
+            type="checkbox"
+            name="published"
+            defaultChecked={report?.published ?? false}
+            style={{ width: 20, height: 20 }}
+          />
           Visible to the client
         </label>
       </div>
@@ -63,7 +76,7 @@ export default function ReportEditor({
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))",
+          gridTemplateColumns: "repeat(auto-fit,minmax(min(200px,100%),1fr))",
           gap: 14,
           marginTop: 20,
         }}
@@ -108,7 +121,7 @@ export default function ReportEditor({
               max="5"
               value={s.value}
               onChange={(e) => update(i, { value: Number(e.target.value) })}
-              style={{ width: 90, flex: "none" }}
+              style={{ width: 84, flex: "none" }}
             />
             <button
               type="button"

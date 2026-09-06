@@ -45,11 +45,11 @@ export default async function StatusPage({ params }: { params: Promise<{ ref: st
   return (
     <div style={{ minHeight: "100vh", background: "#F7F6F2" }}>
       <SiteHeader />
-      <main className="wrap" style={{ paddingTop: 44, paddingBottom: 80, maxWidth: 900 }}>
+      <main className="wrap" style={{ paddingTop: 36, paddingBottom: 64, maxWidth: 900 }}>
         <div className="eyebrow">Reference {order.ref}</div>
         <h1
           className="serif"
-          style={{ fontSize: "clamp(28px,3.2vw,42px)", margin: "12px 0 6px", letterSpacing: "-0.02em" }}
+          style={{ fontSize: "clamp(26px,6vw,42px)", margin: "12px 0 6px", letterSpacing: "-0.02em" }}
         >
           {packLabel(order.pack)}
         </h1>
@@ -60,13 +60,13 @@ export default async function StatusPage({ params }: { params: Promise<{ ref: st
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))",
+            gridTemplateColumns: "repeat(auto-fit,minmax(min(280px,100%),1fr))",
             gap: 20,
             marginTop: 28,
             alignItems: "start",
           }}
         >
-          <section className="card" style={{ padding: 24 }}>
+          <section className="card pad-card">
             <h2 className="serif" style={{ fontSize: 21, margin: "0 0 14px" }}>
               Where things stand
             </h2>
@@ -92,7 +92,7 @@ export default async function StatusPage({ params }: { params: Promise<{ ref: st
                 <Row label="Status" value={BOOKING_TEXT[order.booking.status] ?? order.booking.status} />
                 {order.booking.meetingUrl && order.booking.status === "CONFIRMED" && (
                   <div style={{ marginTop: 16 }}>
-                    <a className="btn btn-primary" href={order.booking.meetingUrl} target="_blank" rel="noreferrer">
+                    <a className="btn btn-primary btn-block-sm" href={order.booking.meetingUrl} target="_blank" rel="noreferrer">
                       Join the session
                     </a>
                   </div>
@@ -103,8 +103,8 @@ export default async function StatusPage({ params }: { params: Promise<{ ref: st
 
           {order.payment !== "PAID" && order.status !== "CANCELLED" && (
             <section
-              className="card"
-              style={{ padding: 24, background: "#F1EFE7", borderLeft: "4px solid #FFD22F" }}
+              className="card pad-card"
+              style={{ background: "#F1EFE7", borderLeft: "4px solid #FFD22F" }}
             >
               <h2 className="serif" style={{ fontSize: 21, margin: "0 0 12px" }}>
                 Paying for this
@@ -157,16 +157,8 @@ export default async function StatusPage({ params }: { params: Promise<{ ref: st
 
 function Row({ label, value }: { label: string; value: string }) {
   return (
-    <div
-      style={{
-        display: "flex",
-        gap: 16,
-        padding: "10px 0",
-        borderTop: "1px solid #EDEBE3",
-        fontSize: 15,
-      }}
-    >
-      <span style={{ color: "#86837A", flex: "none", width: 92 }}>{label}</span>
+    <div className="kv" style={{ borderTop: "1px solid #EDEBE3" }}>
+      <span>{label}</span>
       <span style={{ color: "#26251F" }}>{value}</span>
     </div>
   );

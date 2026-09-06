@@ -27,16 +27,14 @@ export default function ReportView({
   return (
     <div className="card" style={{ overflow: "hidden" }}>
       <div
+        className="report-pad"
         style={{
           background: "#111",
           color: "#F4F2EA",
-          padding: "24px 28px",
           borderBottom: "4px solid #FFD22F",
         }}
       >
-        <div
-          style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 16 }}
-        >
+        <div className="report-head">
           <div>
             <div
               style={{
@@ -48,7 +46,7 @@ export default function ReportView({
             >
               Feedback report
             </div>
-            <h2 className="serif" style={{ fontSize: 23, margin: "8px 0 0", color: "#fff" }}>
+            <h2 className="serif" style={{ fontSize: "clamp(19px,4.6vw,23px)", margin: "8px 0 0", color: "#fff" }}>
               Session of {prettyDate(booking.date)}
               {targetRole ? ` — ${targetRole}` : ""}
             </h2>
@@ -58,7 +56,7 @@ export default function ReportView({
             </div>
           </div>
           <div style={{ textAlign: "right", flex: "none" }}>
-            <div className="serif" style={{ fontSize: 38, color: "#FFD22F", lineHeight: 1 }}>
+            <div className="serif" style={{ fontSize: "clamp(30px,7vw,38px)", color: "#FFD22F", lineHeight: 1 }}>
               {report.overall.toFixed(1)}
             </div>
             <div style={{ fontSize: 12, color: "#A9A69C" }}>out of 5</div>
@@ -66,7 +64,7 @@ export default function ReportView({
         </div>
       </div>
 
-      <div style={{ padding: "24px 28px" }}>
+      <div className="report-pad">
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           {scores.map((row) => (
             <div key={row.name}>
@@ -160,12 +158,12 @@ export default function ReportView({
         {(report.reportUrl || report.recordingUrl) && (
           <div style={{ marginTop: 24, display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
             {report.reportUrl && (
-              <a className="btn btn-primary" href={report.reportUrl} target="_blank" rel="noreferrer">
+              <a className="btn btn-primary btn-block-sm" href={report.reportUrl} target="_blank" rel="noreferrer">
                 Download report (PDF)
               </a>
             )}
             {report.recordingUrl && (
-              <a className="btn btn-ghost" href={report.recordingUrl} target="_blank" rel="noreferrer">
+              <a className="btn btn-ghost btn-block-sm" href={report.recordingUrl} target="_blank" rel="noreferrer">
                 Watch recording
               </a>
             )}

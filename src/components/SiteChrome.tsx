@@ -49,18 +49,25 @@ export function SiteHeader() {
       }}
     >
       <div
-        className="wrap"
+        className="wrap site-head"
         style={{
-          paddingTop: 16,
-          paddingBottom: 16,
+          paddingTop: 12,
+          paddingBottom: 12,
           display: "flex",
           alignItems: "center",
-          gap: 24,
-          flexWrap: "wrap",
+          gap: 20,
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 10, marginRight: "auto" }}>
-          <Link href="/">
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+            marginRight: "auto",
+            minWidth: 0,
+          }}
+        >
+          <Link href="/" style={{ display: "inline-flex", padding: "6px 0" }}>
             <Logo />
           </Link>
           <span
@@ -84,23 +91,31 @@ export function SiteHeader() {
           <Link href="/#interview">Mock interview</Link>
           <Link href="/#faq">FAQ</Link>
         </nav>
-        <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+        <div style={{ display: "flex", gap: 8, alignItems: "center", flex: "none" }}>
           <Link
             href="/status"
-            className="btn btn-ghost"
-            style={{ fontSize: 13, padding: "8px 14px", borderRadius: 999 }}
+            className="btn btn-ghost head-btn"
+            style={{ fontSize: 13, padding: "9px 14px", borderRadius: 999 }}
           >
-            Track my order
+            <span className="hide-sm">Track my order</span>
+            <span className="only-sm-inline">Track</span>
           </Link>
           <Link
             href="/book"
-            className="btn btn-primary"
-            style={{ fontSize: 13, padding: "9px 16px", borderRadius: 999 }}
+            className="btn btn-primary head-btn"
+            style={{ fontSize: 13, padding: "9px 18px", borderRadius: 999 }}
           >
             Book
           </Link>
         </div>
       </div>
+      {/* Section links stay reachable on a phone, where the nav above is hidden. */}
+      <nav className="only-sm section-rail" aria-label="Sections">
+        <Link href="/#packs">Packs</Link>
+        <Link href="/#process">How it works</Link>
+        <Link href="/#interview">Mock interview</Link>
+        <Link href="/#faq">FAQ</Link>
+      </nav>
     </header>
   );
 }
@@ -108,7 +123,7 @@ export function SiteHeader() {
 export function SiteFooter() {
   return (
     <footer style={{ background: "#111", color: "#E6E4DC" }}>
-      <div className="wrap" style={{ paddingTop: 64, paddingBottom: 40 }}>
+      <div className="wrap sec-footer">
         <div
           style={{
             display: "grid",
@@ -134,13 +149,13 @@ export function SiteFooter() {
             </p>
           </div>
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-            <Link href="/#packs" className="btn btn-yellow">
+            <Link href="/#packs" className="btn btn-yellow btn-block-sm">
               Choose your pack
             </Link>
             <Link
               href="/book?pack=INTERVIEW"
-              className="btn"
-              style={{ border: "1px solid #3A3A3A", color: "#E6E4DC" }}
+              className="btn btn-block-sm"
+              style={{ border: "1px solid #4A4A4A", background: "transparent", color: "#E6E4DC" }}
             >
               Book an interview slot
             </Link>
@@ -154,18 +169,20 @@ export function SiteFooter() {
             display: "flex",
             flexWrap: "wrap",
             gap: 18,
+            rowGap: 4,
             fontSize: 13.5,
             color: "#8E8B82",
+            alignItems: "center",
           }}
         >
           <span style={{ marginRight: "auto" }}>{BRAND.name} — HR services for candidates</span>
-          <Link href="/status" style={{ color: "#8E8B82" }}>
+          <Link href="/status" style={{ color: "#8E8B82", padding: "8px 0" }}>
             Track my order
           </Link>
-          <a href={`mailto:${BRAND.email}`} style={{ color: "#8E8B82" }}>
+          <a href={`mailto:${BRAND.email}`} style={{ color: "#8E8B82", padding: "8px 0" }}>
             {BRAND.email}
           </a>
-          <Link href="/admin" style={{ color: "#8E8B82" }}>
+          <Link href="/admin" style={{ color: "#8E8B82", padding: "8px 0" }}>
             Admin
           </Link>
         </div>

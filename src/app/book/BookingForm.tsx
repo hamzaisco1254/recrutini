@@ -70,18 +70,11 @@ export default function BookingForm({
   return (
     <form onSubmit={onSubmit} style={{ display: "grid", gap: 24 }}>
       {/* Pack picker */}
-      <section className="card" style={{ padding: 28 }}>
+      <section className="card pad-card">
         <h2 className="serif" style={{ fontSize: 23, margin: 0 }}>
           1. Your pack
         </h2>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit,minmax(180px,1fr))",
-            gap: 10,
-            marginTop: 18,
-          }}
-        >
+        <div className="pack-grid">
           {PACK_LIST.map((p) => {
             const on = p.key === pack;
             return (
@@ -143,7 +136,7 @@ export default function BookingForm({
 
       {/* Slot picker */}
       {needsSlot && (
-        <section className="card" style={{ padding: 28 }}>
+        <section className="card pad-card">
           <h2 className="serif" style={{ fontSize: 23, margin: 0 }}>
             2. Your 30 minutes
           </h2>
@@ -183,13 +176,7 @@ export default function BookingForm({
               No slots are open at the moment. Send us a note below and we&apos;ll open one for you.
             </p>
           ) : (
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit,minmax(74px,1fr))",
-                gap: 8,
-              }}
-            >
+            <div className="date-grid">
               {days.map((d, i) => {
                 const on = i === dateIdx;
                 return (
@@ -236,13 +223,7 @@ export default function BookingForm({
               <label className="lbl" style={{ marginTop: 26 }}>
                 Time — {tzLabel}
               </label>
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(auto-fit,minmax(96px,1fr))",
-                  gap: 8,
-                }}
-              >
+              <div className="time-grid">
                 {day.slots.map((s) => (
                   <button
                     type="button"
@@ -262,23 +243,17 @@ export default function BookingForm({
       )}
 
       {/* Details */}
-      <section className="card" style={{ padding: 28 }}>
+      <section className="card pad-card">
         <h2 className="serif" style={{ fontSize: 23, margin: 0 }}>
           {needsSlot ? "3." : "2."} Your details
         </h2>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))",
-            gap: 16,
-            marginTop: 20,
-          }}
-        >
+        <div className="field-grid">
           <div>
             <label className="lbl">Full name</label>
             <input
               className="field"
               required
+              autoComplete="name"
               value={form.name}
               onChange={(e) => set("name", e.target.value)}
               placeholder="Amine Ben Salah"
@@ -289,6 +264,10 @@ export default function BookingForm({
             <input
               className="field"
               type="email"
+              inputMode="email"
+              autoComplete="email"
+              autoCapitalize="none"
+              spellCheck={false}
               required
               value={form.email}
               onChange={(e) => set("email", e.target.value)}
@@ -299,6 +278,9 @@ export default function BookingForm({
             <label className="lbl">Phone (optional)</label>
             <input
               className="field"
+              type="tel"
+              inputMode="tel"
+              autoComplete="tel"
               value={form.phone}
               onChange={(e) => set("phone", e.target.value)}
               placeholder="+216 ..."
@@ -317,6 +299,10 @@ export default function BookingForm({
             <label className="lbl">Link to your CV (Drive / Dropbox)</label>
             <input
               className="field"
+              type="url"
+              inputMode="url"
+              autoCapitalize="none"
+              spellCheck={false}
               value={form.cvLink}
               onChange={(e) => set("cvLink", e.target.value)}
               placeholder="https://drive.google.com/..."
@@ -326,6 +312,10 @@ export default function BookingForm({
             <label className="lbl">LinkedIn profile</label>
             <input
               className="field"
+              type="url"
+              inputMode="url"
+              autoCapitalize="none"
+              spellCheck={false}
               value={form.linkedinUrl}
               onChange={(e) => set("linkedinUrl", e.target.value)}
               placeholder="https://linkedin.com/in/..."
@@ -370,22 +360,11 @@ export default function BookingForm({
           </div>
         )}
 
-        <div
-          style={{
-            marginTop: 24,
-            paddingTop: 20,
-            borderTop: "1px solid #EDEBE3",
-            display: "flex",
-            alignItems: "center",
-            gap: 16,
-            flexWrap: "wrap",
-          }}
-        >
+        <div className="submit-row">
           <div style={{ fontSize: 14.5, color: "#56544C", lineHeight: 1.5 }}>{summary}</div>
           <button
             type="submit"
-            className="btn btn-primary"
-            style={{ marginLeft: "auto" }}
+            className="btn btn-primary btn-block-sm submit-btn"
             disabled={pending || (needsSlot && (!day || !time))}
           >
             {pending ? "Sending..." : needsSlot ? "Request this session" : "Send my request"}

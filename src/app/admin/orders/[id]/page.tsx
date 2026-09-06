@@ -33,7 +33,7 @@ export default async function AdminOrderDetail({ params }: { params: Promise<{ i
           margin: "12px 0 4px",
         }}
       >
-        <h1 className="serif" style={{ fontSize: 32, margin: 0, letterSpacing: "-0.02em" }}>
+        <h1 className="serif" style={{ fontSize: "clamp(26px,6vw,32px)", margin: 0, letterSpacing: "-0.02em" }}>
           {order.name}
         </h1>
         <span style={{ fontFamily: "ui-monospace, monospace", color: "#86837A" }}>{order.ref}</span>
@@ -46,12 +46,12 @@ export default async function AdminOrderDetail({ params }: { params: Promise<{ i
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit,minmax(320px,1fr))",
+          gridTemplateColumns: "repeat(auto-fit,minmax(min(320px,100%),1fr))",
           gap: 20,
           alignItems: "start",
         }}
       >
-        <section className="card" style={{ padding: 26 }}>
+        <section className="card pad-card">
           <h2 className="serif" style={{ fontSize: 22, margin: "0 0 18px" }}>
             The file
           </h2>
@@ -81,7 +81,7 @@ export default async function AdminOrderDetail({ params }: { params: Promise<{ i
               <label className="lbl">Internal notes</label>
               <textarea className="field" name="adminNotes" rows={4} defaultValue={order.adminNotes ?? ""} />
             </div>
-            <button className="btn btn-primary">Save</button>
+            <button className="btn btn-primary btn-block-sm">Save</button>
           </form>
 
           <div style={{ marginTop: 24, paddingTop: 18, borderTop: "1px solid #EDEBE3" }}>
@@ -104,14 +104,14 @@ export default async function AdminOrderDetail({ params }: { params: Promise<{ i
         </section>
 
         {b && (
-          <section className="card" style={{ padding: 26 }}>
+          <section className="card pad-card">
             <h2 className="serif" style={{ fontSize: 22, margin: "0 0 18px" }}>
               The session
             </h2>
             <form action={updateBooking} style={{ display: "grid", gap: 14 }}>
               <input type="hidden" name="bookingId" value={b.id} />
               <input type="hidden" name="orderId" value={order.id} />
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+              <div className="two-col">
                 <div>
                   <label className="lbl">Date</label>
                   <input className="field" name="date" type="date" defaultValue={b.date} />
@@ -121,7 +121,7 @@ export default async function AdminOrderDetail({ params }: { params: Promise<{ i
                   <input className="field" name="time" type="time" defaultValue={b.time} />
                 </div>
               </div>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+              <div className="two-col">
                 <div>
                   <label className="lbl">Language</label>
                   <select className="field" name="language" defaultValue={b.language}>
@@ -144,7 +144,7 @@ export default async function AdminOrderDetail({ params }: { params: Promise<{ i
                 <label className="lbl">Meeting link (Meet / Zoom)</label>
                 <input className="field" name="meetingUrl" defaultValue={b.meetingUrl ?? ""} />
               </div>
-              <button className="btn btn-primary">Save session</button>
+              <button className="btn btn-primary btn-block-sm">Save session</button>
             </form>
           </section>
         )}
@@ -172,8 +172,8 @@ function Detail({
 }) {
   if (!value) return null;
   return (
-    <div style={{ display: "flex", gap: 14, padding: "8px 0", fontSize: 14.5 }}>
-      <span style={{ color: "#86837A", flex: "none", width: 96 }}>{label}</span>
+    <div className="kv" style={{ fontSize: 14.5 }}>
+      <span>{label}</span>
       {link ? (
         <a
           href={value}

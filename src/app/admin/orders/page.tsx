@@ -54,22 +54,14 @@ export default async function AdminOrdersPage({
         </div>
       ) : (
         <>
-          <div
-            style={{
-              display: "flex",
-              gap: 10,
-              flexWrap: "wrap",
-              alignItems: "center",
-              marginBottom: 18,
-            }}
-          >
+          <div className="rail" style={{ alignItems: "center", marginBottom: 14 }}>
             {FILTERS.map((f) => (
               <Link
                 key={f.key}
                 href={`/admin/orders?filter=${f.key}`}
                 className="badge"
                 style={{
-                  padding: "7px 13px",
+                  padding: "9px 13px",
                   fontSize: 13,
                   background: filter === f.key ? "#FFD22F" : "#fff",
                   borderColor: filter === f.key ? "#FFD22F" : "#DCD9CE",
@@ -79,12 +71,73 @@ export default async function AdminOrdersPage({
                 {f.label}
               </Link>
             ))}
-            <span style={{ marginLeft: "auto", fontSize: 13.5, color: "#86837A" }}>
-              {counts.total} record{counts.total === 1 ? "" : "s"}
-            </span>
+          </div>
+          <div style={{ fontSize: 13.5, color: "#86837A", marginBottom: 14 }}>
+            {counts.total} record{counts.total === 1 ? "" : "s"}
           </div>
 
-          <div className="card scroll-x">
+          {/* Phone: one card per order, everything visible without sideways scrolling. */}
+          <div className="card only-sm">
+            {orders.length === 0 && (
+              <div style={{ padding: 24, textAlign: "center", color: "#86837A" }}>
+                Nothing here yet.
+              </div>
+            )}
+            {orders.map((o) => (
+              <div key={o.id} className="rec">
+                <div className="rec-top">
+                  <Link href={`/admin/orders/${o.id}`} className="rec-ref">
+                    {o.ref}
+                  </Link>
+                  <span style={{ fontSize: 13.5, color: "#86837A", whiteSpace: "nowrap" }}>
+                    {packLabel(o.pack)} · {o.amountDt} dt
+                  </span>
+                </div>
+                <div style={{ fontWeight: 600, color: "#26251F", marginTop: 8 }}>{o.name}</div>
+                <div style={{ fontSize: 13.5, color: "#86837A" }}>{o.email}</div>
+                {o.booking && (
+                  <div className="rec-line">
+                    <span>Session</span>
+                    <span>
+                      {prettyDate(o.booking.date)} · {o.booking.time} · {o.booking.language}
+                    </span>
+                  </div>
+                )}
+                <div className="rec-badges">
+                  <span className="badge" data-tone={o.payment.toLowerCase()}>
+                    {o.payment}
+                  </span>
+                  <span className="badge" data-tone={o.status.toLowerCase().replace("_", "")}>
+                    {o.status.replace("_", " ")}
+                  </span>
+                  {o.booking && (
+                    <span className="badge" data-tone={o.booking.status.toLowerCase()}>
+                      {o.booking.status}
+                    </span>
+                  )}
+                </div>
+                <div style={{ display: "flex", gap: 10, marginTop: 14 }}>
+                  <Link
+                    href={`/admin/orders/${o.id}`}
+                    className="btn btn-ghost"
+                    style={{ flex: 1, fontSize: 14 }}
+                  >
+                    Open
+                  </Link>
+                  {o.payment === "UNPAID" && o.status !== "CANCELLED" && (
+                    <form action={markPaid} style={{ flex: 1, display: "flex" }}>
+                      <input type="hidden" name="id" value={o.id} />
+                      <button className="btn btn-yellow" style={{ flex: 1, fontSize: 14 }}>
+                        Mark paid
+                      </button>
+                    </form>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="card scroll-x hide-sm">
             <table className="data">
               <thead>
                 <tr>

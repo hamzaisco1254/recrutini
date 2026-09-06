@@ -79,17 +79,7 @@ export default function LandingPage() {
       <SiteHeader />
       <main>
         {/* Hero */}
-        <section
-          className="wrap"
-          style={{
-            paddingTop: 88,
-            paddingBottom: 64,
-            display: "grid",
-            gridTemplateColumns: "minmax(0,1.15fr) minmax(0,0.85fr)",
-            gap: 56,
-            alignItems: "center",
-          }}
-        >
+        <section className="wrap sec-lg hero-grid">
           <div>
             <div
               style={{
@@ -110,32 +100,41 @@ export default function LandingPage() {
             <h1
               className="serif"
               style={{
-                fontSize: "clamp(38px,5vw,64px)",
-                lineHeight: 1.04,
+                fontSize: "clamp(33px,7vw,64px)",
+                lineHeight: 1.06,
                 letterSpacing: "-0.02em",
-                margin: "22px 0 0",
+                margin: "20px 0 0",
+                textWrap: "pretty",
               }}
             >
               You have the experience. Let&apos;s make it read that way.
             </h1>
             <p
               style={{
-                fontSize: 18.5,
-                lineHeight: 1.62,
+                fontSize: "clamp(16.5px,4.4vw,18.5px)",
+                lineHeight: 1.6,
                 color: "#56544C",
                 maxWidth: "52ch",
-                margin: "22px 0 0",
+                margin: "20px 0 0",
               }}
             >
               We rewrite your CV, rebuild your LinkedIn profile, and put you through a real 30-minute
               interview simulation with written feedback. Done by recruiters who have sat on the
               hiring side of the table.
             </p>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 14, marginTop: 34 }}>
-              <Link href="#packs" className="btn btn-primary" style={{ padding: "15px 26px" }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 30 }}>
+              <Link
+                href="#packs"
+                className="btn btn-primary btn-block-sm"
+                style={{ padding: "15px 26px" }}
+              >
                 Choose your pack
               </Link>
-              <Link href="#process" className="btn btn-ghost" style={{ padding: "15px 26px" }}>
+              <Link
+                href="#process"
+                className="btn btn-ghost btn-block-sm"
+                style={{ padding: "15px 26px" }}
+              >
                 See how it works
               </Link>
             </div>
@@ -222,10 +221,10 @@ export default function LandingPage() {
         </section>
 
         {/* Packs */}
-        <section id="packs" className="wrap" style={{ paddingTop: 88, paddingBottom: 24 }}>
+        <section id="packs" className="wrap sec-lg" style={{ paddingBottom: 24 }}>
           <h2
             className="serif"
-            style={{ fontSize: "clamp(30px,3.4vw,44px)", letterSpacing: "-0.015em", margin: 0 }}
+            style={{ fontSize: "clamp(27px,5.5vw,44px)", letterSpacing: "-0.015em", margin: 0 }}
           >
             Choose your pack
           </h2>
@@ -355,13 +354,11 @@ export default function LandingPage() {
         {/* Interview */}
         <section id="interview" style={{ background: "#111", color: "#F4F2EA", marginTop: 64 }}>
           <div
-            className="wrap"
+            className="wrap sec"
             style={{
-              paddingTop: 80,
-              paddingBottom: 80,
               display: "grid",
               gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))",
-              gap: 48,
+              gap: 40,
             }}
           >
             <div>
@@ -378,7 +375,7 @@ export default function LandingPage() {
               <h2
                 className="serif"
                 style={{
-                  fontSize: "clamp(30px,3.4vw,44px)",
+                  fontSize: "clamp(27px,5.5vw,44px)",
                   letterSpacing: "-0.015em",
                   margin: "18px 0 0",
                   color: "#fff",
@@ -401,7 +398,7 @@ export default function LandingPage() {
               </p>
               <Link
                 href="/book?pack=INTERVIEW"
-                className="btn btn-yellow"
+                className="btn btn-yellow btn-block-sm"
                 style={{ marginTop: 30, padding: "14px 24px" }}
               >
                 Book a simulation
@@ -445,10 +442,10 @@ export default function LandingPage() {
         </section>
 
         {/* Process */}
-        <section id="process" className="wrap" style={{ paddingTop: 80, paddingBottom: 80 }}>
+        <section id="process" className="wrap sec">
           <h2
             className="serif"
-            style={{ fontSize: "clamp(30px,3.4vw,44px)", letterSpacing: "-0.015em", margin: 0 }}
+            style={{ fontSize: "clamp(27px,5.5vw,44px)", letterSpacing: "-0.015em", margin: 0 }}
           >
             How working together goes
           </h2>
@@ -480,20 +477,18 @@ export default function LandingPage() {
         {/* FAQ */}
         <section id="faq" style={{ borderTop: "1px solid #E4E2DA", background: "#F1EFE7" }}>
           <div
-            className="wrap"
+            className="wrap sec"
             style={{
-              paddingTop: 76,
-              paddingBottom: 76,
               display: "grid",
               gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))",
-              gap: 48,
+              gap: 32,
               alignItems: "start",
             }}
           >
             <div>
               <h2
                 className="serif"
-                style={{ fontSize: "clamp(28px,3vw,40px)", letterSpacing: "-0.015em", margin: 0 }}
+                style={{ fontSize: "clamp(26px,5vw,40px)", letterSpacing: "-0.015em", margin: 0 }}
               >
                 Questions candidates ask
               </h2>
@@ -538,6 +533,11 @@ export default function LandingPage() {
                       color: "#26251F",
                       cursor: "pointer",
                       listStyle: "none",
+                      paddingTop: 4,
+                      paddingBottom: 4,
+                      minHeight: 32,
+                      display: "flex",
+                      alignItems: "center",
                     }}
                   >
                     {f.q}

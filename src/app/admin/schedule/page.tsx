@@ -28,12 +28,12 @@ export default async function AdminSchedulePage() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit,minmax(340px,1fr))",
+          gridTemplateColumns: "repeat(auto-fit,minmax(min(340px,100%),1fr))",
           gap: 20,
           alignItems: "start",
         }}
       >
-        <form action={saveAvailability} className="card" style={{ padding: 26 }}>
+        <form action={saveAvailability} className="card pad-card">
           <h2 className="serif" style={{ fontSize: 22, margin: "0 0 8px" }}>
             Weekly availability
           </h2>
@@ -43,7 +43,7 @@ export default async function AdminSchedulePage() {
           <div style={{ display: "grid", gap: 12 }}>
             {DAYS.map((d) => (
               <div key={d.i} style={{ display: "flex", gap: 12, alignItems: "center" }}>
-                <span style={{ width: 92, flex: "none", fontSize: 14.5, color: "#56544C" }}>
+                <span className="day-label" style={{ fontSize: 14.5, color: "#56544C" }}>
                   {d.name}
                 </span>
                 <input
@@ -57,12 +57,8 @@ export default async function AdminSchedulePage() {
           </div>
 
           <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: 12,
-              marginTop: 20,
-            }}
+            className="two-col"
+            style={{ marginTop: 20 }}
           >
             <div>
               <label className="lbl">Days visible ahead</label>
@@ -98,7 +94,7 @@ export default async function AdminSchedulePage() {
           </button>
         </form>
 
-        <section className="card" style={{ padding: 26 }}>
+        <section className="card pad-card">
           <h2 className="serif" style={{ fontSize: 22, margin: "0 0 8px" }}>
             Days off
           </h2>
