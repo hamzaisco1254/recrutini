@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
-import { BRAND, CREDENTIALS, PACK_LIST, STUDENT_OFFER } from "@/lib/brand";
+import Image from "next/image";
+import { BRAND, CREDENTIALS, FOUNDER, PACK_LIST, STUDENT_OFFER } from "@/lib/brand";
 
 export const dynamic = "force-static";
 
@@ -356,10 +357,64 @@ export default function LandingPage() {
           </div>
         </section>
 
+
+        {/* Founder */}
+        <section id="founder" className="wrap sec founder">
+          <div className="founder-photo">
+            <div className="founder-photo-block" aria-hidden="true" />
+            <Image
+              src={FOUNDER.photo}
+              alt={`${FOUNDER.name}, founder of ${BRAND.name}`}
+              width={900}
+              height={1125}
+              sizes="(max-width: 720px) 100vw, 380px"
+              className="founder-img"
+              priority={false}
+            />
+          </div>
+
+          <div>
+            <div className="sec-num" style={{ display: "block" }}>
+              03 — Who you work with
+            </div>
+            <h2 className="serif h2" style={{ marginTop: 14 }}>
+              Meet the founder
+            </h2>
+            <div className="founder-name serif">{FOUNDER.name}</div>
+            <div className="founder-role">{FOUNDER.role}</div>
+
+            {FOUNDER.bio.map((para) => (
+              <p key={para.slice(0, 24)} className="founder-bio">
+                {para}
+              </p>
+            ))}
+
+            <div className="founder-creds">
+              {FOUNDER.credentials.map((c) => (
+                <div key={c.title} className="cred">
+                  <div className="cred-title">{c.title}</div>
+                  <div className="cred-org">{c.org}</div>
+                  <div className="cred-note">{c.note}</div>
+                </div>
+              ))}
+            </div>
+
+            <a
+              href={FOUNDER.linkedin}
+              target="_blank"
+              rel="noreferrer"
+              className="btn btn-ghost btn-block-sm"
+              style={{ marginTop: 26 }}
+            >
+              See the full profile on LinkedIn
+            </a>
+          </div>
+        </section>
+
         {/* Process */}
         <section id="process" className="wrap sec">
           <div className="sec-head">
-            <span className="sec-num">03</span>
+            <span className="sec-num">04</span>
             <h2 className="serif h2">How working together goes</h2>
           </div>
           <div
@@ -396,7 +451,7 @@ export default function LandingPage() {
           >
             <div>
               <span className="sec-num" style={{ display: "block", marginBottom: 12 }}>
-                04
+                05
               </span>
               <h2 className="serif h2">Questions candidates ask</h2>
               <p

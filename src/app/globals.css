@@ -1230,3 +1230,117 @@ section[id] {
   border-radius: 6px;
   border: 1px solid var(--line-2);
 }
+
+/* ---------- Meet the founder ---------- */
+
+.founder {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: 56px;
+  align-items: start;
+  border-top: 1px solid var(--line);
+}
+
+.founder-photo {
+  position: relative;
+  align-self: start;
+}
+/* Yellow block offset behind the portrait, echoing the pack cards. */
+.founder-photo-block {
+  position: absolute;
+  inset: -16px 16px 16px -16px;
+  background: var(--yellow);
+  border-radius: 10px;
+}
+.founder-img {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+}
+
+.founder-name {
+  font-size: clamp(24px, 2.6vw, 30px);
+  letter-spacing: -0.015em;
+  margin-top: 22px;
+}
+.founder-role {
+  font-size: 15px;
+  color: var(--muted);
+  margin-top: 6px;
+}
+.founder-bio {
+  font-size: 16.5px;
+  line-height: 1.65;
+  color: var(--text);
+  margin: 18px 0 0;
+  max-width: 60ch;
+}
+
+.founder-creds {
+  margin-top: 30px;
+  border-top: 1px solid var(--line-2);
+}
+.cred {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.05fr) auto;
+  gap: 14px;
+  align-items: baseline;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line-2);
+}
+.cred-title {
+  font-size: 15.5px;
+  font-weight: 600;
+  color: #26251f;
+}
+.cred-org {
+  font-size: 14.5px;
+  color: var(--muted);
+}
+.cred-note {
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #726f66;
+  text-align: right;
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .founder {
+    gap: 36px;
+  }
+  .cred {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .cred-org {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .cred-note {
+    grid-row: 1;
+  }
+}
+
+@media (max-width: 720px) {
+  .founder {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  .founder-photo {
+    max-width: 300px;
+    margin-left: 16px;
+  }
+  .founder-name {
+    margin-top: 16px;
+  }
+  .founder-bio {
+    font-size: 15.5px;
+  }
+  .cred {
+    padding: 12px 0;
+  }
+}

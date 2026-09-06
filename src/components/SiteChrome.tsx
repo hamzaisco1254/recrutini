@@ -90,6 +90,7 @@ export function SiteHeader({ dark = false }: { dark?: boolean }) {
           <Link href="/#packs">Packs</Link>
           <Link href="/#process">How it works</Link>
           <Link href="/#interview">Mock interview</Link>
+          <Link href="/#founder">Founder</Link>
           <Link href="/#faq">FAQ</Link>
         </nav>
         <div style={{ display: "flex", gap: 8, alignItems: "center", flex: "none" }}>
@@ -115,6 +116,7 @@ export function SiteHeader({ dark = false }: { dark?: boolean }) {
         <Link href="/#packs">Packs</Link>
         <Link href="/#process">How it works</Link>
         <Link href="/#interview">Mock interview</Link>
+        <Link href="/#founder">Founder</Link>
         <Link href="/#faq">FAQ</Link>
       </nav>
     </header>
