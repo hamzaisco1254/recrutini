@@ -87,8 +87,8 @@ const SIM_STEPS = [
 ];
 
 const STATS = [
+  ["800+", "interviews conducted by the recruiter you meet"],
   ["4 days", "typical turnaround on a rewrite"],
-  ["2 rounds", "of revisions included in every pack"],
   ["EN / FR", "sessions and reports, your choice"],
 ];
 
@@ -382,6 +382,15 @@ export default function LandingPage() {
             </h2>
             <div className="founder-name serif">{FOUNDER.name}</div>
             <div className="founder-role">{FOUNDER.role}</div>
+
+            <div className="founder-stats">
+              {FOUNDER.stats.map(([big, small]) => (
+                <div key={big}>
+                  <div className="serif founder-stat-big">{big}</div>
+                  <div className="founder-stat-small">{small}</div>
+                </div>
+              ))}
+            </div>
 
             {FOUNDER.bio.map((para) => (
               <p key={para.slice(0, 24)} className="founder-bio">

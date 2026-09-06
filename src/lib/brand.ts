@@ -107,8 +107,12 @@ export const FOUNDER = {
   location: "Tunis, Tunisia",
   linkedin: "https://www.linkedin.com/in/hamza-dhia-mrabet-561a97b8/",
   photo: "/founder.jpg",
+  stats: [
+    ["4 years", "hiring experience"],
+    ["800+", "interviews conducted"],
+  ],
   bio: [
-    "I interview people for a living. As HR Manager at Planisware I run the interviews, read the applications and decide who moves forward — so I know what a CV has thirty seconds to prove, and what an interviewer is quietly scoring while you talk.",
+    "Four years hiring, and more than 800 interviews conducted. As HR Manager at Planisware I run the interviews, read the applications and decide who moves forward — so I know what a CV has thirty seconds to prove, and what an interviewer is quietly scoring while you talk.",
     "In a session you get the real questions for your target role, and an honest answer to the thing nobody tells candidates: why they said no.",
   ],
   credentials: [

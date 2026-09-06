@@ -1338,3 +1338,28 @@ section[id] {
     padding: 12px 0;
   }
 }
+
+.founder-stats {
+  display: flex;
+  gap: 40px;
+  margin-top: 20px;
+  padding: 16px 0;
+  border-top: 1px solid var(--line-2);
+  border-bottom: 1px solid var(--line-2);
+}
+.founder-stat-big {
+  font-size: clamp(26px, 2.4vw, 32px);
+  line-height: 1;
+  letter-spacing: -0.015em;
+}
+.founder-stat-small {
+  font-size: 13.5px;
+  color: var(--muted);
+  margin-top: 6px;
+}
+
+@media (max-width: 720px) {
+  .founder-stats {
+    gap: 28px;
+  }
+}
