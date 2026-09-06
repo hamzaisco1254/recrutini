@@ -365,9 +365,9 @@ export default function LandingPage() {
             <Image
               src={FOUNDER.photo}
               alt={`${FOUNDER.name}, founder of ${BRAND.name}`}
-              width={900}
-              height={1125}
-              sizes="(max-width: 720px) 100vw, 380px"
+              width={400}
+              height={400}
+              sizes="(max-width: 720px) 230px, 264px"
               className="founder-img"
               priority={false}
             />

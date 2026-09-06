@@ -1243,12 +1243,12 @@ section[id] {
 
 .founder-photo {
   position: relative;
-  max-width: 340px;
+  max-width: 264px;
 }
 /* Yellow block offset behind the portrait, echoing the pack cards. */
 .founder-photo-block {
   position: absolute;
-  inset: -16px 16px 16px -16px;
+  inset: -14px 14px 14px -14px;
   background: var(--yellow);
   border-radius: 10px;
 }
@@ -1325,8 +1325,8 @@ section[id] {
     gap: 30px;
   }
   .founder-photo {
-    max-width: 300px;
-    margin-left: 16px;
+    max-width: 230px;
+    margin-left: 14px;
   }
   .founder-name {
     margin-top: 16px;
