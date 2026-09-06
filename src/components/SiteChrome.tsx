@@ -36,16 +36,17 @@ export function Logo({ dark = false }: { dark?: boolean }) {
   );
 }
 
-export function SiteHeader() {
+export function SiteHeader({ dark = false }: { dark?: boolean }) {
   return (
     <header
+      className={dark ? "head-dark" : undefined}
       style={{
         position: "sticky",
         top: 0,
         zIndex: 20,
-        background: "rgba(247,246,242,0.93)",
+        background: dark ? undefined : "rgba(247,246,242,0.93)",
         backdropFilter: "blur(8px)",
-        borderBottom: "1px solid #E4E2DA",
+        borderBottom: dark ? undefined : "1px solid #E4E2DA",
       }}
     >
       <div
@@ -68,7 +69,7 @@ export function SiteHeader() {
           }}
         >
           <Link href="/" style={{ display: "inline-flex", padding: "6px 0" }}>
-            <Logo />
+            <Logo dark={dark} />
           </Link>
           <span
             className="hide-sm"
@@ -76,7 +77,7 @@ export function SiteHeader() {
               fontSize: 11,
               letterSpacing: "0.14em",
               textTransform: "uppercase",
-              color: "#86837A",
+              color: dark ? "#8E8B82" : "#86837A",
             }}
           >
             {BRAND.tagline}
@@ -84,7 +85,7 @@ export function SiteHeader() {
         </div>
         <nav
           className="hide-sm"
-          style={{ display: "flex", gap: 22, fontSize: 14.5, color: "#56544C" }}
+          style={{ display: "flex", gap: 22, fontSize: 14.5, color: dark ? "#A9A69C" : "#56544C" }}
         >
           <Link href="/#packs">Packs</Link>
           <Link href="/#process">How it works</Link>
@@ -102,7 +103,7 @@ export function SiteHeader() {
           </Link>
           <Link
             href="/book"
-            className="btn btn-primary head-btn"
+            className={`btn head-btn ${dark ? "btn-yellow" : "btn-primary"}`}
             style={{ fontSize: 13, padding: "9px 18px", borderRadius: 999 }}
           >
             Book
