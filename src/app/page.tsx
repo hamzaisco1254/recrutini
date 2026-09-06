@@ -3,7 +3,11 @@ import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
 import Image from "next/image";
 import { BRAND, CREDENTIALS, FOUNDER, PACK_LIST, STUDENT_OFFER } from "@/lib/brand";
 
-export const dynamic = "force-static";
+import { prisma } from "@/lib/db";
+import ReviewCard, { Stars, type PublicReview } from "@/components/ReviewCard";
+
+// Reviews are read from the database, so this page is rendered per request.
+export const dynamic = "force-dynamic";
 
 const FAQS = [
   {
@@ -92,7 +96,31 @@ const STATS = [
   ["EN / FR", "sessions and reports, your choice"],
 ];
 
-export default function LandingPage() {
+export default async function LandingPage() {
+  let reviews: PublicReview[] = [];
+  try {
+    reviews = await prisma.review.findMany({
+      where: { status: "PUBLISHED" },
+      orderBy: { createdAt: "desc" },
+      take: 3,
+      select: {
+        id: true,
+        name: true,
+        role: true,
+        rating: true,
+        body: true,
+        verified: true,
+        createdAt: true,
+      },
+    });
+  } catch {
+    reviews = [];
+  }
+  const average =
+    reviews.length > 0
+      ? Math.round((reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length) * 10) / 10
+      : null;
+
   return (
     <div style={{ minHeight: "100vh", background: "#F7F6F2" }}>
       <SiteHeader dark />
@@ -419,10 +447,51 @@ export default function LandingPage() {
           </div>
         </section>
 
+
+        {/* Reviews */}
+        {reviews.length > 0 && (
+          <section id="reviews" className="reviews-band">
+            <div className="wrap sec">
+              <div className="sec-head">
+                <span className="sec-num">04</span>
+                <div style={{ width: "100%" }}>
+                  <div className="reviews-head">
+                    <h2 className="serif h2">What candidates say</h2>
+                    {average !== null && (
+                      <div className="reviews-avg">
+                        <Stars value={Math.round(average)} />
+                        <span>{average.toFixed(1)} / 5</span>
+                      </div>
+                    )}
+                  </div>
+                  <p style={{ fontSize: 16.5, color: "#56544C", margin: "14px 0 0", maxWidth: "54ch" }}>
+                    Written by people who booked. We publish them as they come, good and bad.
+                  </p>
+                </div>
+              </div>
+
+              <div className="review-grid" style={{ marginTop: 40 }}>
+                {reviews.map((r) => (
+                  <ReviewCard key={r.id} review={r} />
+                ))}
+              </div>
+
+              <div style={{ marginTop: 28, display: "flex", gap: 14, flexWrap: "wrap" }}>
+                <Link href="/reviews" className="btn btn-ghost btn-block-sm">
+                  Read all reviews
+                </Link>
+                <Link href="/reviews" className="btn btn-primary btn-block-sm">
+                  Leave a review
+                </Link>
+              </div>
+            </div>
+          </section>
+        )}
+
         {/* Process */}
         <section id="process" className="wrap sec">
           <div className="sec-head">
-            <span className="sec-num">04</span>
+            <span className="sec-num">05</span>
             <h2 className="serif h2">How working together goes</h2>
           </div>
           <div
@@ -459,7 +528,7 @@ export default function LandingPage() {
           >
             <div>
               <span className="sec-num" style={{ display: "block", marginBottom: 12 }}>
-                05
+                06
               </span>
               <h2 className="serif h2">Questions candidates ask</h2>
               <p

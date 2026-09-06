@@ -171,3 +171,30 @@ export async function removeBlackout(formData: FormData) {
   await prisma.blackout.delete({ where: { id } }).catch(() => {});
   revalidatePath("/admin/schedule");
 }
+
+export async function publishReview(formData: FormData) {
+  await requireAdmin();
+  const id = String(formData.get("id"));
+  await prisma.review.update({ where: { id }, data: { status: "PUBLISHED" } });
+  revalidatePath("/admin/reviews");
+  revalidatePath("/reviews");
+  revalidatePath("/");
+}
+
+export async function unpublishReview(formData: FormData) {
+  await requireAdmin();
+  const id = String(formData.get("id"));
+  await prisma.review.update({ where: { id }, data: { status: "PENDING" } });
+  revalidatePath("/admin/reviews");
+  revalidatePath("/reviews");
+  revalidatePath("/");
+}
+
+export async function deleteReview(formData: FormData) {
+  await requireAdmin();
+  const id = String(formData.get("id"));
+  await prisma.review.delete({ where: { id } });
+  revalidatePath("/admin/reviews");
+  revalidatePath("/reviews");
+  revalidatePath("/");
+}

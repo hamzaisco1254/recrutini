@@ -32,6 +32,11 @@ enum PaymentStatus {
   REFUNDED
 }
 
+enum ReviewStatus {
+  PENDING
+  PUBLISHED
+}
+
 enum BookingStatus {
   PENDING
   CONFIRMED
@@ -108,4 +113,18 @@ model Setting {
 model Blackout {
   id   String @id @default(cuid())
   date String @unique // YYYY-MM-DD
+}
+
+model Review {
+  id        String       @id @default(cuid())
+  name      String
+  role      String?
+  rating    Int
+  body      String
+  orderRef  String?
+  verified  Boolean      @default(false)
+  status    ReviewStatus @default(PENDING)
+  createdAt DateTime     @default(now())
+
+  @@index([status, createdAt])
 }

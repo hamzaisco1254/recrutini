@@ -91,6 +91,7 @@ export function SiteHeader({ dark = false }: { dark?: boolean }) {
           <Link href="/#process">How it works</Link>
           <Link href="/#interview">Mock interview</Link>
           <Link href="/#founder">Founder</Link>
+          <Link href="/reviews">Reviews</Link>
           <Link href="/#faq">FAQ</Link>
         </nav>
         <div style={{ display: "flex", gap: 8, alignItems: "center", flex: "none" }}>
@@ -117,6 +118,7 @@ export function SiteHeader({ dark = false }: { dark?: boolean }) {
         <Link href="/#process">How it works</Link>
         <Link href="/#interview">Mock interview</Link>
         <Link href="/#founder">Founder</Link>
+        <Link href="/reviews">Reviews</Link>
         <Link href="/#faq">FAQ</Link>
       </nav>
     </header>
@@ -181,6 +183,9 @@ export function SiteFooter() {
           <span style={{ marginRight: "auto" }}>{BRAND.name} — HR services for candidates</span>
           <Link href="/status" style={{ color: "#8E8B82", padding: "8px 0" }}>
             Track my order
+          </Link>
+          <Link href="/reviews" style={{ color: "#8E8B82", padding: "8px 0" }}>
+            Reviews
           </Link>
           <a href={`mailto:${BRAND.email}`} style={{ color: "#8E8B82", padding: "8px 0" }}>
             {BRAND.email}

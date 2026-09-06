@@ -164,6 +164,29 @@ export default async function StatusPage({ params }: { params: Promise<{ ref: st
           </p>
         )}
 
+        {(order.status === "DELIVERED" || order.booking?.status === "COMPLETED") && (
+          <section
+            className="card pad-card"
+            style={{ marginTop: 24, display: "flex", gap: 18, alignItems: "center", flexWrap: "wrap" }}
+          >
+            <div>
+              <h2 className="serif" style={{ fontSize: 21, margin: "0 0 6px" }}>
+                How did it go?
+              </h2>
+              <p style={{ fontSize: 15, color: "#56544C", margin: 0, maxWidth: "50ch" }}>
+                If it helped, a couple of sentences from you helps the next candidate decide.
+              </p>
+            </div>
+            <Link
+              href={`/reviews?ref=${order.ref}`}
+              className="btn btn-primary btn-block-sm"
+              style={{ marginLeft: "auto" }}
+            >
+              Leave a review
+            </Link>
+          </section>
+        )}
+
         <p style={{ fontSize: 14, color: "#86837A", marginTop: 32 }}>
           Bookmark this page — it is the live state of your file.{" "}
           <Link href="/" style={{ borderBottom: "2px solid #FFD22F" }}>

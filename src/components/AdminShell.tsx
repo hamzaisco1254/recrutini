@@ -8,10 +8,10 @@ export default function AdminShell({
   children,
 }: {
   email: string;
-  active: "orders" | "schedule";
+  active: "orders" | "schedule" | "reviews";
   children: React.ReactNode;
 }) {
-  const tab = (key: "orders" | "schedule", href: string, label: string) => (
+  const tab = (key: "orders" | "schedule" | "reviews", href: string, label: string) => (
     <Link
       href={href}
       style={{
@@ -85,7 +85,8 @@ export default function AdminShell({
       <div className="wrap" style={{ paddingTop: 24, paddingBottom: 64 }}>
         <nav className="rail" style={{ marginBottom: 20 }}>
           {tab("orders", "/admin/orders", "Orders & bookings")}
-          {tab("schedule", "/admin/schedule", "Availability & payment")}
+          {tab("reviews", "/admin/reviews", "Reviews")}
+        {tab("schedule", "/admin/schedule", "Availability & payment")}
         </nav>
         {children}
       </div>
