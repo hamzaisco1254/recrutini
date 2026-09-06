@@ -112,7 +112,7 @@ export const FOUNDER = {
     ["800+", "interviews conducted"],
   ],
   bio: [
-    "Four years hiring, and more than 800 interviews conducted. As HR Manager at Planisware I run the interviews, read the applications and decide who moves forward — so I know what a CV has thirty seconds to prove, and what an interviewer is quietly scoring while you talk.",
+    "Four years hiring, and more than 800 interviews conducted. I run interviews for a living: I read the applications, ask the questions and decide who moves forward — so I know what a CV has thirty seconds to prove, and what an interviewer is quietly scoring while you talk.",
     "In a session you get the real questions for your target role, and an honest answer to the thing nobody tells candidates: why they said no.",
   ],
   credentials: [

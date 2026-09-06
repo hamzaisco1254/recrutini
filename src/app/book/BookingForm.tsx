@@ -376,7 +376,6 @@ export default function BookingForm({
               autoComplete="name"
               value={form.name}
               onChange={(e) => set("name", e.target.value)}
-              placeholder="Amine Ben Salah"
             />
           </div>
           <div>
