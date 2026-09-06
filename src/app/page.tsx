@@ -394,7 +394,6 @@ export default function LandingPage() {
                 <div key={c.title} className="cred">
                   <div className="cred-title">{c.title}</div>
                   <div className="cred-org">{c.org}</div>
-                  <div className="cred-note">{c.note}</div>
                 </div>
               ))}
             </div>

@@ -1235,15 +1235,15 @@ section[id] {
 
 .founder {
   display: grid;
-  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-  gap: 56px;
-  align-items: start;
+  grid-template-columns: minmax(0, 0.68fr) minmax(0, 1.32fr);
+  gap: 52px;
+  align-items: center;
   border-top: 1px solid var(--line);
 }
 
 .founder-photo {
   position: relative;
-  align-self: start;
+  max-width: 340px;
 }
 /* Yellow block offset behind the portrait, echoing the pack cards. */
 .founder-photo-block {
@@ -1285,8 +1285,8 @@ section[id] {
 }
 .cred {
   display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1.05fr) auto;
-  gap: 14px;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: 16px;
   align-items: baseline;
   padding: 14px 0;
   border-bottom: 1px solid var(--line-2);
@@ -1314,14 +1314,8 @@ section[id] {
     gap: 36px;
   }
   .cred {
-    grid-template-columns: minmax(0, 1fr) auto;
-  }
-  .cred-org {
-    grid-column: 1;
-    grid-row: 2;
-  }
-  .cred-note {
-    grid-row: 1;
+    grid-template-columns: 1fr;
+    gap: 2px;
   }
 }
 

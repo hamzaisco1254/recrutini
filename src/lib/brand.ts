@@ -103,33 +103,17 @@ export const STUDENT_OFFER = {
 /** Facts shown in the founder section — all taken from his own profile. */
 export const FOUNDER = {
   name: "Hamza Dhia Mrabet",
-  role: "HR Manager at Planisware · Industrial-organizational psychologist",
+  role: "HR Manager · Industrial-organizational psychologist",
   location: "Tunis, Tunisia",
   linkedin: "https://www.linkedin.com/in/hamza-dhia-mrabet-561a97b8/",
   photo: "/founder.jpg",
   bio: [
-    "I run HR at Planisware, where my work sits in payroll, labour law and people analytics. My training is in industrial-organizational psychology — the discipline behind structured interviews and competency scoring — and I finished an MBA focused on artificial intelligence in 2026.",
-    "I am on the hiring side of the table every week. What you get here is the feedback a hiring manager would give about your application, said to your face instead of kept in a file.",
+    "I interview people for a living. As HR Manager at Planisware I run the interviews, read the applications and decide who moves forward — so I know what a CV has thirty seconds to prove, and what an interviewer is quietly scoring while you talk.",
+    "In a session you get the real questions for your target role, and an honest answer to the thing nobody tells candidates: why they said no.",
   ],
   credentials: [
-    { title: "HR Manager", org: "Planisware", note: "Since 2025" },
-    {
-      title: "MBA, artificial-intelligence focus",
-      org: "South Mediterranean University (MSB)",
-      note: "2026 · Outstanding Honors",
-    },
-    {
-      title: "Master's, work psychology & HR management",
-      org: "Université de Tunis",
-      note: "2024",
-    },
-    {
-      title: "Master's, political science & government",
-      org: "Carthage University",
-      note: "2026",
-    },
-    { title: "Recruitment Metrics & Analytics", org: "AIHR", note: "Certification" },
-    { title: "HR Data Science in R", org: "AIHR", note: "Certification" },
+    { title: "Master's in work psychology & HR management", org: "Université de Tunis" },
+    { title: "MBA, artificial-intelligence focus", org: "South Mediterranean University (MSB)" },
   ],
 };
 
