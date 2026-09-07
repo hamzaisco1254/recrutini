@@ -1,34 +1,48 @@
 import Link from "next/link";
 import { BRAND } from "@/lib/brand";
 
-export function Logo({ dark = false }: { dark?: boolean }) {
+/**
+ * The R of Libre Caslon Display — the same face the wordmark is set in —
+ * carried as outlines so the mark never waits on a webfont, and never shifts
+ * if one fails to load.
+ */
+const R_PATH =
+  "M647 8V0H544Q520 0 508.0 7.0Q496 14 483 34L330 281Q316 304 306.5 309.5Q297 315 273 315H199V16L286 8V0H40V8L122 16V674L40 682V690H293Q411 690 473.0 642.5Q535 595 535 505Q535 435 497.0 390.0Q459 345 387 328H388L571 42Q584 22 596.5 15.0Q609 8 633 8ZM199 678V330H290Q370 330 408.5 372.5Q447 415 447 503Q447 592 408.0 635.0Q369 678 290 678Z";
+
+/**
+ * The mark: a serif R standing on the stroke a reader leaves when a line is
+ * worth keeping. On a dark ground the letter reverses; the accent never does.
+ */
+export function LogoMark({ size = 34, dark = false }: { size?: number; dark?: boolean }) {
   return (
-    <span style={{ display: "inline-flex", alignItems: "center", gap: 10 }}>
-      <span
-        style={{
-          width: 26,
-          height: 26,
-          background: dark ? "#fff" : "#111",
-          display: "inline-block",
-          position: "relative",
-          borderRadius: 3,
-          flex: "none",
-        }}
-      >
-        <span
-          style={{
-            position: "absolute",
-            left: 5,
-            bottom: 5,
-            width: 16,
-            height: 5,
-            background: "#FFD22F",
-          }}
-        />
-      </span>
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 40 40"
+      fill="none"
+      aria-hidden="true"
+      style={{ flex: "none", display: "block" }}
+    >
+      <rect x="6.32" y="28.51" width="27.35" height="6.40" fill="#FFD22F" />
+      <g fill={dark ? "#FFFFFF" : "#111111"}>
+        <path transform="translate(6.559 33.5) scale(0.039130 -0.039130)" d={R_PATH} />
+      </g>
+    </svg>
+  );
+}
+
+export function Logo({ dark = false, size = 34 }: { dark?: boolean; size?: number }) {
+  return (
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 11 }}>
+      <LogoMark size={size} dark={dark} />
       <span
         className="serif"
-        style={{ fontSize: 21, letterSpacing: "-0.01em", color: dark ? "#fff" : undefined }}
+        style={{
+          fontSize: size * 0.66,
+          letterSpacing: "-0.015em",
+          lineHeight: 1,
+          color: dark ? "#fff" : undefined,
+        }}
       >
         {BRAND.name}
       </span>
@@ -138,12 +152,13 @@ export function SiteFooter() {
           }}
         >
           <div>
+            <Logo dark size={40} />
             <h2
               className="serif"
               style={{
                 fontSize: "clamp(26px,2.6vw,36px)",
                 color: "#fff",
-                margin: 0,
+                margin: "26px 0 0",
                 letterSpacing: "-0.015em",
               }}
             >

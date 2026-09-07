@@ -1,4 +1,4 @@
-import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
+import { SiteHeader, SiteFooter, LogoMark } from "@/components/SiteChrome";
 import { BRAND, PACKS, type PackKey } from "@/lib/brand";
 import { buildCalendar } from "@/lib/schedule";
 import BookingForm from "./BookingForm";
@@ -28,7 +28,10 @@ export default async function BookPage({
     <div style={{ minHeight: "100vh", background: "#F7F6F2" }}>
       <SiteHeader />
       <main className="wrap" style={{ paddingTop: 44, paddingBottom: 80, maxWidth: 820 }}>
-        <div className="eyebrow">Booking</div>
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <LogoMark size={30} />
+          <div className="eyebrow">Booking</div>
+        </div>
         <h1
           className="serif"
           style={{
