@@ -1,3 +1,5 @@
+import { t, type Locale } from "@/lib/i18n";
+
 export type PublicReview = {
   id: string;
   name: string;
@@ -8,9 +10,9 @@ export type PublicReview = {
   createdAt: Date;
 };
 
-export function Stars({ value, small = false }: { value: number; small?: boolean }) {
+export function Stars({ value, small = false, locale = "en" }: { value: number; small?: boolean; locale?: Locale }) {
   return (
-    <span className={`stars${small ? " stars-sm" : ""}`} aria-label={`${value} out of 5`}>
+    <span className={`stars${small ? " stars-sm" : ""}`} aria-label={`${value} ${t(locale).reviewsPage.outOf}`}>
       {[1, 2, 3, 4, 5].map((n) => (
         <span key={n} aria-hidden="true" data-on={n <= value}>
           ★
@@ -20,8 +22,8 @@ export function Stars({ value, small = false }: { value: number; small?: boolean
   );
 }
 
-export default function ReviewCard({ review }: { review: PublicReview }) {
-  const when = new Intl.DateTimeFormat("en-GB", {
+export default function ReviewCard({ review, locale = "en" }: { review: PublicReview; locale?: Locale }) {
+  const when = new Intl.DateTimeFormat(locale === "fr" ? "fr-FR" : "en-GB", {
     month: "short",
     year: "numeric",
     timeZone: "Africa/Tunis",
@@ -29,7 +31,7 @@ export default function ReviewCard({ review }: { review: PublicReview }) {
 
   return (
     <figure className="review">
-      <Stars value={review.rating} />
+      <Stars value={review.rating} locale={locale} />
       <blockquote className="review-body">{review.body}</blockquote>
       <figcaption className="review-by">
         <span className="review-name">{review.name}</span>
@@ -39,7 +41,7 @@ export default function ReviewCard({ review }: { review: PublicReview }) {
           {review.verified ? (
             <>
               {" · "}
-              <span className="review-verified">Verified client</span>
+              <span className="review-verified">{t(locale).reviewsPage.verified}</span>
             </>
           ) : null}
         </span>

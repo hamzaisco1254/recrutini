@@ -1,9 +1,9 @@
-# Recruitini.tn
+# Recrutini
 
 HR services platform: CV optimization, LinkedIn optimization, mock interviews and the full pack.
 Public site with booking for visitors, private dashboard for the admin.
 
-Built with Next.js 15 (App Router), Prisma and Postgres. Deploys to Vercel.
+Built with Next.js 16 (App Router), Prisma and Neon Postgres, in English and French (`/` and `/fr`). Deploys to Vercel.
 
 ## What it does
 
@@ -77,3 +77,16 @@ npm run dev               # http://localhost:3000
 - Prices live in `src/lib/brand.ts`. Change them there and they update on the site and in new orders.
 - There is no email sending yet. When you want confirmation emails, Resend plugs into the
   `submitBooking` and `markPaid` actions in about twenty lines.
+
+## Running locally
+
+```bash
+npm install
+cp .env.example .env        # fill in DATABASE_URL, DIRECT_URL, ADMIN_*, AUTH_SECRET
+npx prisma migrate deploy   # or `npx prisma db push` on a fresh database
+npm run dev
+```
+
+Every secret lives in environment variables; see `.env.example` for the full list (database, admin
+login, session secret, Gmail or Resend for transactional email, `CRON_SECRET`, optional
+`NEXT_PUBLIC_WHATSAPP` and `NEXT_PUBLIC_GSC_VERIFICATION`). Nothing sensitive is committed.

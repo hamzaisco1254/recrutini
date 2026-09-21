@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Logo } from "./SiteChrome";
-import { logout } from "@/app/admin/actions";
+import { logout } from "@/server/admin";
 
 export default function AdminShell({
   email,

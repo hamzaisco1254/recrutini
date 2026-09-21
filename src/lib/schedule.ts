@@ -1,6 +1,8 @@
 import { prisma } from "./db";
 import { BRAND } from "./brand";
 
+type DateLocale = "en" | "fr";
+
 export type Availability = {
   // 0 = Sunday ... 6 = Saturday
   weekdays: Record<string, string[]>;
@@ -22,13 +24,13 @@ export const DEFAULT_AVAILABILITY: Availability = {
   leadHours: 24,
 };
 
-export const DEFAULT_PAYMENT_INSTRUCTIONS = `Payment is confirmed manually. Send the amount by one of these means, then we confirm your slot by email:
+export const DEFAULT_PAYMENT_INSTRUCTIONS = `Pay by bank transfer or D17 to the account below, then write to us with your reference. We confirm your slot the same day.
 
-• Bank transfer (RIB sent with your confirmation email)
-• D17 / Flouci to the number you receive by email
-• Cash before the session
+Your booking is held for 48 hours while payment is pending. Students on the free offer pay nothing.`;
 
-Your booking is held for 48 hours while payment is pending.`;
+export const DEFAULT_PAYMENT_INSTRUCTIONS_FR = `Réglez par virement bancaire ou D17 sur le compte ci-dessous, puis écrivez-nous avec votre référence. Nous confirmons votre créneau le jour même.
+
+Votre réservation est tenue 48 heures en attendant le paiement. Les étudiants de l'offre gratuite ne paient rien.`;
 
 export async function getSetting<T>(key: string, fallback: T): Promise<T> {
   try {
@@ -52,7 +54,9 @@ export async function getAvailability() {
   return getSetting<Availability>("availability", DEFAULT_AVAILABILITY);
 }
 
-export async function getPaymentInstructions() {
+/** Payment text shown on a client's file, editable per language in the admin. */
+export async function getPaymentInstructions(locale: DateLocale = "en") {
+  if (locale === "fr") return getSetting<string>("paymentInstructions_fr", DEFAULT_PAYMENT_INSTRUCTIONS_FR);
   return getSetting<string>("paymentInstructions", DEFAULT_PAYMENT_INSTRUCTIONS);
 }
 
@@ -84,27 +88,39 @@ export function weekdayOf(isoDate: string) {
   return new Date(`${isoDate}T12:00:00Z`).getUTCDay();
 }
 
-const DOW = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-const DOW_LONG = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-const MONTHS = [
-  "January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December",
-];
+const NAMES: Record<DateLocale, { dow: string[]; dowLong: string[]; months: string[]; monthsShort: string[] }> = {
+  en: {
+    dow: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+    dowLong: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+    months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+    monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+  },
+  fr: {
+    dow: ["dim.", "lun.", "mar.", "mer.", "jeu.", "ven.", "sam."],
+    dowLong: ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"],
+    months: ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"],
+    monthsShort: ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."],
+  },
+};
 
-export function dowShort(isoDate: string) {
-  return DOW[weekdayOf(isoDate)];
+export function dowShort(isoDate: string, locale: DateLocale = "en") {
+  return NAMES[locale].dow[weekdayOf(isoDate)];
 }
 
 export function dayNumber(isoDate: string) {
   return Number(isoDate.slice(8, 10));
 }
 
-export function monthShort(isoDate: string) {
-  return MONTHS[Number(isoDate.slice(5, 7)) - 1].slice(0, 3);
+export function monthShort(isoDate: string, locale: DateLocale = "en") {
+  return NAMES[locale].monthsShort[Number(isoDate.slice(5, 7)) - 1];
 }
 
-export function prettyDate(isoDate: string) {
-  return `${DOW_LONG[weekdayOf(isoDate)]} ${dayNumber(isoDate)} ${MONTHS[Number(isoDate.slice(5, 7)) - 1]}`;
+/** "Monday 21 September" / "lundi 21 septembre". French keeps day names lower-case. */
+export function prettyDate(isoDate: string, locale: DateLocale = "en") {
+  const n = NAMES[locale];
+  const day = dayNumber(isoDate);
+  const dayLabel = locale === "fr" && day === 1 ? "1er" : String(day);
+  return `${n.dowLong[weekdayOf(isoDate)]} ${dayLabel} ${n.months[Number(isoDate.slice(5, 7)) - 1]}`;
 }
 
 export type DaySlots = {
@@ -116,7 +132,7 @@ export type DaySlots = {
 };
 
 /** Build the bookable calendar: availability minus blackouts, past times and existing bookings. */
-export async function buildCalendar(): Promise<DaySlots[]> {
+export async function buildCalendar(locale: DateLocale = "en"): Promise<DaySlots[]> {
   const availability = await getAvailability();
   const now = nowInTz();
   const start = now.date;
@@ -161,7 +177,7 @@ export async function buildCalendar(): Promise<DaySlots[]> {
 
     if (slots.every((s) => s.taken) && i < 1) continue;
     if (slots.length === 0) continue;
-    days.push({ date, dow: dowShort(date), num: dayNumber(date), month: monthShort(date), slots });
+    days.push({ date, dow: dowShort(date, locale), num: dayNumber(date), month: monthShort(date, locale), slots });
   }
   return days.filter((d) => d.slots.some((s) => !s.taken)).slice(0, 14);
 }

@@ -1,5 +1,8 @@
 import Link from "next/link";
-import { BRAND } from "@/lib/brand";
+import { BRAND, whatsappLink } from "@/lib/brand";
+import { localePath, t, type Locale } from "@/lib/i18n";
+import LangPick from "./LangPick";
+import { NavLinks, StickyHeader, type NavItem } from "./SiteNav";
 
 /**
  * The R of Libre Caslon Display — the same face the wordmark is set in —
@@ -36,7 +39,7 @@ export function Logo({ dark = false, size = 34 }: { dark?: boolean; size?: numbe
     <span style={{ display: "inline-flex", alignItems: "center", gap: 11 }}>
       <LogoMark size={size} dark={dark} />
       <span
-        className="serif"
+        className="serif logo-word"
         style={{
           fontSize: size * 0.66,
           letterSpacing: "-0.015em",
@@ -50,164 +53,82 @@ export function Logo({ dark = false, size = 34 }: { dark?: boolean; size?: numbe
   );
 }
 
-export function SiteHeader({ dark = false }: { dark?: boolean }) {
+export function SiteHeader({ dark = false, locale = "en" }: { dark?: boolean; locale?: Locale }) {
+  const c = t(locale);
+  const base = localePath(locale, "/");
+  const items: NavItem[] = [
+    { id: "packs", href: `${base}#packs`, label: c.nav.packs },
+    { id: "process", href: `${base}#process`, label: c.nav.process },
+    { id: "why", href: `${base}#why`, label: c.nav.why },
+    { id: "founder", href: `${base}#founder`, label: c.nav.founder },
+    { id: "reviews", href: localePath(locale, "/reviews"), label: c.nav.reviews },
+    { id: "faq", href: `${base}#faq`, label: c.nav.faq },
+  ];
   return (
-    <header
-      className={dark ? "head-dark" : undefined}
-      style={{
-        position: "sticky",
-        top: 0,
-        zIndex: 20,
-        background: dark ? undefined : "rgba(247,246,242,0.93)",
-        backdropFilter: "blur(8px)",
-        borderBottom: dark ? undefined : "1px solid #E4E2DA",
-      }}
-    >
-      <div
-        className="wrap site-head"
-        style={{
-          paddingTop: 12,
-          paddingBottom: 12,
-          display: "flex",
-          alignItems: "center",
-          gap: 20,
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 10,
-            marginRight: "auto",
-            minWidth: 0,
-          }}
-        >
-          <Link href="/" style={{ display: "inline-flex", padding: "6px 0" }}>
+    <StickyHeader dark={dark}>
+      <div className="wrap site-head">
+        <div className="head-brand">
+          <Link href={base} style={{ display: "inline-flex", padding: "6px 0" }}>
             <Logo dark={dark} />
           </Link>
-          <span
-            className="hide-sm"
-            style={{
-              fontSize: 11,
-              letterSpacing: "0.14em",
-              textTransform: "uppercase",
-              color: dark ? "#8E8B82" : "#86837A",
-            }}
-          >
-            {BRAND.tagline}
-          </span>
+          <span className="head-tagline">{c.common.tagline}</span>
         </div>
-        <nav
-          className="hide-sm"
-          style={{ display: "flex", gap: 22, fontSize: 14.5, color: dark ? "#A9A69C" : "#56544C" }}
-        >
-          <Link href="/#packs">Packs</Link>
-          <Link href="/#process">How it works</Link>
-          <Link href="/#interview">Mock interview</Link>
-          <Link href="/#founder">Founder</Link>
-          <Link href="/reviews">Reviews</Link>
-          <Link href="/#faq">FAQ</Link>
-        </nav>
-        <div style={{ display: "flex", gap: 8, alignItems: "center", flex: "none" }}>
-          <Link
-            href="/status"
-            className="btn btn-ghost head-btn"
-            style={{ fontSize: 13, padding: "9px 14px", borderRadius: 999 }}
-          >
-            <span className="hide-sm">Track my order</span>
-            <span className="only-sm-inline">Track</span>
-          </Link>
-          <Link
-            href="/book"
-            className={`btn head-btn ${dark ? "btn-yellow" : "btn-primary"}`}
-            style={{ fontSize: 13, padding: "9px 18px", borderRadius: 999 }}
-          >
-            Book
+        <NavLinks items={items} variant="nav" label={c.nav.sectionsLabel} />
+        <div className="head-actions">
+          <LangPick locale={locale} dark={dark} label={c.nav.switchLabel} />
+          <Link href={localePath(locale, "/book")} className={`btn head-btn ${dark ? "btn-yellow" : "btn-primary"}`}>
+            {c.nav.book}
           </Link>
         </div>
       </div>
-      {/* Section links stay reachable on a phone, where the nav above is hidden. */}
-      <nav className="only-sm section-rail" aria-label="Sections">
-        <Link href="/#packs">Packs</Link>
-        <Link href="/#process">How it works</Link>
-        <Link href="/#interview">Mock interview</Link>
-        <Link href="/#founder">Founder</Link>
-        <Link href="/reviews">Reviews</Link>
-        <Link href="/#faq">FAQ</Link>
-      </nav>
-    </header>
+      {/* Section links stay reachable where the row above has no room for them. */}
+      <NavLinks items={items} variant="rail" label={c.nav.sectionsLabel} />
+    </StickyHeader>
   );
 }
 
-export function SiteFooter() {
+export function SiteFooter({ locale = "en" }: { locale?: Locale }) {
+  const c = t(locale);
+  const base = localePath(locale, "/");
+  const wa = whatsappLink(
+    locale === "fr"
+      ? "Bonjour, j'ai une question sur Recrutini."
+      : "Hello, I have a question about Recrutini.",
+  );
   return (
-    <footer style={{ background: "#111", color: "#E6E4DC" }}>
-      <div className="wrap sec-footer">
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))",
-            gap: 32,
-            alignItems: "end",
-          }}
-        >
+    <footer className="foot">
+      <div className="wrap">
+        <div className="cta-panel">
           <div>
-            <Logo dark size={40} />
-            <h2
-              className="serif"
-              style={{
-                fontSize: "clamp(26px,2.6vw,36px)",
-                color: "#fff",
-                margin: "26px 0 0",
-                letterSpacing: "-0.015em",
-              }}
-            >
-              Ready when you are.
-            </h2>
-            <p style={{ fontSize: 16, color: "#A9A69C", margin: "12px 0 0", maxWidth: "40ch" }}>
-              Pick a pack and fill the intake form. You&apos;ll hear from a recruiter the same day.
-            </p>
+            <h2 className="serif cta-panel-h2">{c.footer.h2}</h2>
+            <p className="cta-panel-p">{c.footer.sub}</p>
           </div>
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-            <Link href="/#packs" className="btn btn-yellow btn-block-sm">
-              Choose your pack
+          <div className="cta-panel-actions">
+            <Link href={`${base}#packs`} className="btn btn-yellow btn-block-sm">
+              {c.footer.cta1}
             </Link>
-            <Link
-              href="/book?pack=INTERVIEW"
-              className="btn btn-block-sm"
-              style={{ border: "1px solid #4A4A4A", background: "transparent", color: "#E6E4DC" }}
-            >
-              Book an interview slot
+            <Link href={`${localePath(locale, "/book")}?pack=INTERVIEW`} className="btn btn-on-ink btn-block-sm">
+              {c.footer.cta2}
             </Link>
           </div>
         </div>
-        <div
-          style={{
-            borderTop: "1px solid #2E2E2E",
-            marginTop: 44,
-            paddingTop: 20,
-            display: "flex",
-            flexWrap: "wrap",
-            gap: 18,
-            rowGap: 4,
-            fontSize: 13.5,
-            color: "#8E8B82",
-            alignItems: "center",
-          }}
-        >
-          <span style={{ marginRight: "auto" }}>{BRAND.name} — HR services for candidates</span>
-          <Link href="/status" style={{ color: "#8E8B82", padding: "8px 0" }}>
-            Track my order
-          </Link>
-          <Link href="/reviews" style={{ color: "#8E8B82", padding: "8px 0" }}>
-            Reviews
-          </Link>
-          <a href={`mailto:${BRAND.email}`} style={{ color: "#8E8B82", padding: "8px 0" }}>
-            {BRAND.email}
-          </a>
-          <Link href="/admin" style={{ color: "#8E8B82", padding: "8px 0" }}>
-            Admin
-          </Link>
+        <div className="foot-row">
+          <span className="foot-brand">
+            <Logo size={26} /> <span className="foot-tag">{c.footer.tagline}</span>
+          </span>
+          <nav className="foot-links" aria-label="Footer">
+            <Link href={localePath(locale, "/status")}>{c.footer.track}</Link>
+            <Link href={localePath(locale, "/reviews")}>{c.footer.reviews}</Link>
+            <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>
+            {wa && (
+              <a href={wa} target="_blank" rel="noreferrer">
+                WhatsApp
+              </a>
+            )}
+            <Link href={localePath(locale, "/legal/privacy")}>{c.footer.privacy}</Link>
+            <Link href={localePath(locale, "/legal/terms")}>{c.footer.terms}</Link>
+            <Link href="/admin">{c.footer.admin}</Link>
+          </nav>
         </div>
       </div>
     </footer>

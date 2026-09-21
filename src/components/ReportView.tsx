@@ -1,4 +1,6 @@
 import { prettyDate } from "@/lib/schedule";
+import { languageLabel } from "@/lib/brand";
+import { t, type Locale } from "@/lib/i18n";
 
 type Score = { name: string; value: number };
 
@@ -6,6 +8,7 @@ export default function ReportView({
   report,
   booking,
   targetRole,
+  locale = "en",
 }: {
   report: {
     interviewer: string;
@@ -20,7 +23,9 @@ export default function ReportView({
   };
   booking: { date: string; time: string; language: string };
   targetRole?: string | null;
+  locale?: Locale;
 }) {
+  const c = t(locale).report;
   const scores: Score[] = Array.isArray(report.scores) ? (report.scores as Score[]) : [];
   const toFix: string[] = Array.isArray(report.toFix) ? (report.toFix as string[]) : [];
 
@@ -44,22 +49,22 @@ export default function ReportView({
                 color: "#FFD22F",
               }}
             >
-              Feedback report
+              {c.label}
             </div>
             <h2 className="serif" style={{ fontSize: "clamp(19px,4.6vw,23px)", margin: "8px 0 0", color: "#fff" }}>
-              Session of {prettyDate(booking.date)}
-              {targetRole ? ` — ${targetRole}` : ""}
+              {c.sessionOf} {prettyDate(booking.date, locale)}
+              {targetRole ? ` · ${targetRole}` : ""}
             </h2>
             <div style={{ fontSize: 13.5, color: "#A9A69C", marginTop: 6 }}>
-              {report.interviewer ? `Interviewer: ${report.interviewer} · ` : ""}
-              {booking.language === "EN" ? "English" : "Français"} · 50 min
+              {report.interviewer ? `${c.interviewer} : ${report.interviewer} · ` : ""}
+              {languageLabel(booking.language)} · 50 min
             </div>
           </div>
           <div style={{ textAlign: "right", flex: "none" }}>
             <div className="serif" style={{ fontSize: "clamp(30px,7vw,38px)", color: "#FFD22F", lineHeight: 1 }}>
               {report.overall.toFixed(1)}
             </div>
-            <div style={{ fontSize: 12, color: "#A9A69C" }}>out of 5</div>
+            <div style={{ fontSize: 12, color: "#A9A69C" }}>{c.outOf}</div>
           </div>
         </div>
       </div>
@@ -98,7 +103,7 @@ export default function ReportView({
 
         {report.whatLanded && (
           <div style={{ marginTop: 26, paddingTop: 22, borderTop: "1px solid #EDEBE3" }}>
-            <div className="eyebrow">What landed well</div>
+            <div className="eyebrow">{c.landed}</div>
             <p style={{ fontSize: 15, lineHeight: 1.62, color: "#3D3B34", margin: "10px 0 0", whiteSpace: "pre-wrap" }}>
               {report.whatLanded}
             </p>
@@ -107,7 +112,7 @@ export default function ReportView({
 
         {toFix.length > 0 && (
           <div style={{ marginTop: 22 }}>
-            <div className="eyebrow">What to fix before the real interview</div>
+            <div className="eyebrow">{c.toFix}</div>
             <ol
               style={{
                 margin: "10px 0 0",
@@ -138,7 +143,7 @@ export default function ReportView({
             }}
           >
             <div style={{ fontSize: 12, letterSpacing: "0.12em", textTransform: "uppercase", color: "#14140F" }}>
-              {report.rewrittenTitle || "Rewritten answer"}
+              {report.rewrittenTitle || c.rewritten}
             </div>
             <p
               style={{
@@ -159,15 +164,15 @@ export default function ReportView({
           <div style={{ marginTop: 24, display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
             {report.reportUrl && (
               <a className="btn btn-primary btn-block-sm" href={report.reportUrl} target="_blank" rel="noreferrer">
-                Download report (PDF)
+                {c.download}
               </a>
             )}
             {report.recordingUrl && (
               <a className="btn btn-ghost btn-block-sm" href={report.recordingUrl} target="_blank" rel="noreferrer">
-                Watch recording
+                {c.recording}
               </a>
             )}
-            <span style={{ fontSize: 13.5, color: "#86837A" }}>One follow-up question included</span>
+            <span style={{ fontSize: 13.5, color: "#86837A" }}>{c.followUp}</span>
           </div>
         )}
       </div>

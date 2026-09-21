@@ -1,10 +1,41 @@
+/**
+ * The canonical origin. Set NEXT_PUBLIC_SITE_URL the day a real domain exists;
+ * everything (sitemap, canonical tags, share cards, structured data) follows it.
+ */
+export const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://recruitini-recrutini.vercel.app"
+).replace(/\/$/, "");
+
 export const BRAND = {
-  name: "Recruitini.tn",
-  shortName: "Recruitini",
+  name: "Recrutini",
+  shortName: "Recrutini",
   tagline: "HR Services",
   email: "hamzamrabet1253@gmail.com",
+  /** Tunisia runs on WhatsApp. Digits only, international format, no plus. */
+  whatsapp: process.env.NEXT_PUBLIC_WHATSAPP ?? "",
   timezone: "Africa/Tunis",
   tzLabel: "Africa / Tunis",
+  /** How fast we actually answer. Stated, so nobody has to wonder. */
+  replyPromise: "Same day, every day, including Saturday.",
+};
+
+export function whatsappLink(message: string) {
+  if (!BRAND.whatsapp) return null;
+  return `https://wa.me/${BRAND.whatsapp}?text=${encodeURIComponent(message)}`;
+}
+
+/**
+ * Bank details for manual transfers. Shown on a candidate's own file page and
+ * on the payment page, never on the public landing page.
+ */
+export const BANK = {
+  holder: "Hamza Dhiaa Mrabet",
+  bank: "ATB, Arab Tunisian Bank",
+  branch: "Agence El Mechtel, Tunis Nord",
+  rib: "01004027111608518481",
+  iban: "TN5901004027111608518481",
+  swift: "ATBKTNTT",
+  currency: "TND",
 };
 
 export const COLORS = {
@@ -36,8 +67,11 @@ export const PACKS: Record<
     number: string;
     title: string;
     price: number;
-    strike?: number;
     duration?: string;
+    /** The situation this pack is bought in, in the candidate's own words. */
+    forWho: string;
+    /** One line under the price, when the pack has an argument to make. */
+    note?: string;
     featured?: boolean;
     includesInterview: boolean;
     bullets: string[];
@@ -46,29 +80,28 @@ export const PACKS: Record<
   CV_LINKEDIN: {
     key: "CV_LINKEDIN",
     number: "Pack 01",
-    title: "CV & LinkedIn Optimization",
+    title: "CV & LinkedIn rewrite",
     price: 20,
+    forWho: "For when you apply and hear nothing.",
     includesInterview: false,
     bullets: [
-      "Full CV rewrite: structure, wording, impact statements",
-      "ATS-friendly formatting, editable Word + PDF",
-      "LinkedIn headline, About and experience rewritten",
-      "Keyword strategy so recruiters actually find you",
-      "Two revision rounds on both",
+      "Your CV rewritten line by line, for the ATS and for the human after it",
+      "LinkedIn headline, About and experience rewritten so recruiters find you",
+      "Editable Word + PDF, two rounds of revisions",
     ],
   },
   INTERVIEW: {
     key: "INTERVIEW",
     number: "Pack 02",
-    title: "Mock Interview",
+    title: "Mock interview",
     price: 40,
     duration: "50 min",
+    forWho: "For when a real interview is coming.",
     includesInterview: true,
     bullets: [
-      "A live simulation for the exact role you are applying for",
-      "Written feedback scored across five competencies",
-      "Recording of the session, yours to keep",
-      "One follow-up question after you read the report",
+      "50 minutes on the exact role, with the questions that role really gets",
+      "Written report within 48h: five competencies scored, weak answers rewritten",
+      "Feedback and coaching right after, the recording, and follow-up for all your questions",
     ],
   },
   FULL: {
@@ -76,16 +109,15 @@ export const PACKS: Record<
     number: "Pack 03",
     title: "Full Pack",
     price: 50,
-    strike: 60,
+    forWho: "For when you want the whole search handled, until you sign.",
+    note: "10 dt more than the mock interview alone, with the CV and LinkedIn rewrite included.",
     featured: true,
     includesInterview: true,
     bullets: [
-      "Coaching sessions, one to one",
-      "Mock interviews for your target roles",
-      "CV review and rewrite",
-      "Role review: whether the job actually fits you",
-      "Written feedback after every session",
-      "Continuous follow-up until you land the role",
+      "Everything in both packs",
+      "One mock interview, on the role you are actually targeting",
+      "Two coaching sessions, and an honest read on whether the job fits you",
+      "60 days of follow-up, by email or WhatsApp",
     ],
   },
 };
@@ -95,8 +127,8 @@ export const PACK_LIST = [PACKS.CV_LINKEDIN, PACKS.INTERVIEW, PACKS.FULL];
 /** Students looking for a PFE pay nothing while the offer runs. */
 export const STUDENT_OFFER = {
   on: true,
-  title: "Free for students, right now",
-  body: "If you are a student looking for a PFE, every pack above is free while we build our track record in Tunisia. Pick the pack you want, upload a photo of your student card when you book, and we confirm your file the same day. No payment, no card details.",
+  title: "Hunting a PFE? All of it is free.",
+  body: "Every pack, at no cost, while we build our track record in Tunisia. Pick the one you want, upload a photo of your student card when you book, and we confirm the same day. No payment, no card details.",
   short: "Students looking for a PFE: free, just upload your student card.",
 };
 
@@ -107,14 +139,21 @@ export const FOUNDER = {
   location: "Tunis, Tunisia",
   linkedin: "https://www.linkedin.com/in/hamza-dhia-mrabet-561a97b8/",
   photo: "/founder.jpg",
+  markets: ["Tunisia", "MENA region", "Germany", "Spain", "France"],
   stats: [
     ["4 years", "hiring experience"],
     ["800+", "interviews conducted"],
+    ["4 markets", "Tunisia · MENA · Germany · Spain · France"],
   ],
   bio: [
-    "Four years hiring, and more than 800 interviews conducted. I run interviews for a living: I read the applications, ask the questions and decide who moves forward — so I know what a CV has thirty seconds to prove, and what an interviewer is quietly scoring while you talk.",
-    "In a session you get the real questions for your target role, and an honest answer to the thing nobody tells candidates: why they said no.",
+    "I read the applications, ask the questions and decide who moves forward. Four years of it, and more than 800 interviews. I am also trained as a work psychologist, which means I can tell you not just that an answer failed, but why it registered the way it did.",
+    "Almost no candidate is ever told why they were rejected. Book a session and you get the real questions for your target role, and the honest answer nobody gives you.",
   ],
+  /** The single strongest differentiator for a candidate applying abroad. */
+  abroad: {
+    title: "Applying abroad, or elsewhere in the region?",
+    body: "I recruit across the MENA region, and in Germany, Spain and France. They do not read a CV the same way: what reads as appropriately modest in Tunis reads as vague in Berlin, and a Spanish shortlist weighs things a German one ignores. Your CV, your LinkedIn and your answers get built for the market you are targeting, instead of translated into it.",
+  },
   credentials: [
     { title: "Master's in work psychology & HR management", org: "Université de Tunis" },
     { title: "MBA, artificial-intelligence focus", org: "South Mediterranean University (MSB)" },
@@ -122,7 +161,20 @@ export const FOUNDER = {
 };
 
 export const CREDENTIALS =
-  "You work with experienced recruiters from the IT field and with occupational psychologists — qualified, with international experience.";
+  "Experienced IT recruiters and occupational psychologists, hiring across the MENA region, Germany, Spain and France.";
+
+/** Sessions and written reports are delivered in any of these. */
+export const LANGUAGES = [
+  { key: "EN", label: "English", short: "EN" },
+  { key: "FR", label: "Français", short: "FR" },
+  { key: "AR", label: "العربية", short: "AR" },
+] as const;
+
+export type LanguageKey = (typeof LANGUAGES)[number]["key"];
+
+export function languageLabel(key: string) {
+  return LANGUAGES.find((l) => l.key === key)?.label ?? key;
+}
 
 export function packLabel(key: string) {
   return PACKS[key as PackKey]?.title ?? key;
