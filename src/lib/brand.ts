@@ -10,7 +10,7 @@ export const BRAND = {
   name: "Recrutini",
   shortName: "Recrutini",
   tagline: "HR Services",
-  email: "hamzamrabet1253@gmail.com",
+  email: "contact@recrutini.tn",
   /** Tunisia runs on WhatsApp. Digits only, international format, no plus. */
   whatsapp: process.env.NEXT_PUBLIC_WHATSAPP ?? "",
   timezone: "Africa/Tunis",
@@ -143,7 +143,7 @@ export const FOUNDER = {
   stats: [
     ["4 years", "hiring experience"],
     ["800+", "interviews conducted"],
-    ["4 markets", "Tunisia · MENA · Germany · Spain · France"],
+    ["International", "Tunisia · MENA · Germany · Spain · France"],
   ],
   bio: [
     "I read the applications, ask the questions and decide who moves forward. Four years of it, and more than 800 interviews. I am also trained as a work psychologist, which means I can tell you not just that an answer failed, but why it registered the way it did.",

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { BRAND, whatsappLink } from "@/lib/brand";
 import { localePath, t, type Locale } from "@/lib/i18n";
 import LangPick from "./LangPick";
-import { NavLinks, StickyHeader, type NavItem } from "./SiteNav";
+import { MenuButton, NavLinks, StickyHeader, type NavItem } from "./SiteNav";
 
 /**
  * The R of Libre Caslon Display — the same face the wordmark is set in —
@@ -53,16 +53,33 @@ export function Logo({ dark = false, size = 34 }: { dark?: boolean; size?: numbe
   );
 }
 
-export function SiteHeader({ dark = false, locale = "en" }: { dark?: boolean; locale?: Locale }) {
+export function SiteHeader({
+  dark = false,
+  locale = "en",
+  reviewsOnPage = false,
+}: {
+  dark?: boolean;
+  locale?: Locale;
+  reviewsOnPage?: boolean;
+}) {
   const c = t(locale);
   const base = localePath(locale, "/");
+  // Listed in the order the sections appear on the page, so the bar reads as a
+  // map of the scroll rather than a menu with its own opinion. Reviews is the
+  // one conditional entry: it becomes an anchor only once there are reviews on
+  // the page to anchor to.
   const items: NavItem[] = [
-    { id: "packs", href: `${base}#packs`, label: c.nav.packs },
     { id: "process", href: `${base}#process`, label: c.nav.process },
+    { id: "packs", href: `${base}#packs`, label: c.nav.packs },
+    {
+      id: "reviews",
+      href: reviewsOnPage ? `${base}#reviews` : localePath(locale, "/reviews"),
+      label: c.nav.reviews,
+    },
     { id: "why", href: `${base}#why`, label: c.nav.why },
     { id: "founder", href: `${base}#founder`, label: c.nav.founder },
-    { id: "reviews", href: localePath(locale, "/reviews"), label: c.nav.reviews },
     { id: "faq", href: `${base}#faq`, label: c.nav.faq },
+    { id: "contact", href: `${base}#contact`, label: c.nav.contact },
   ];
   return (
     <StickyHeader dark={dark}>
@@ -79,10 +96,25 @@ export function SiteHeader({ dark = false, locale = "en" }: { dark?: boolean; lo
           <Link href={localePath(locale, "/book")} className={`btn head-btn ${dark ? "btn-yellow" : "btn-primary"}`}>
             {c.nav.book}
           </Link>
+          {/* Below the width where seven links fit, the same links live here. */}
+          <MenuButton
+            items={items}
+            label={c.nav.menuLabel}
+            openLabel={c.nav.menu}
+            closeLabel={c.nav.closeMenu}
+          >
+            <Link href={localePath(locale, "/book")} className="btn btn-primary btn-block-sm">
+              {c.common.book}
+            </Link>
+            <Link href={localePath(locale, "/status")} className="menu-minor">
+              {c.footer.track}
+            </Link>
+            <a href={`mailto:${BRAND.email}`} className="menu-minor">
+              {BRAND.email}
+            </a>
+          </MenuButton>
         </div>
       </div>
-      {/* Section links stay reachable where the row above has no room for them. */}
-      <NavLinks items={items} variant="rail" label={c.nav.sectionsLabel} />
     </StickyHeader>
   );
 }
@@ -127,7 +159,6 @@ export function SiteFooter({ locale = "en" }: { locale?: Locale }) {
             )}
             <Link href={localePath(locale, "/legal/privacy")}>{c.footer.privacy}</Link>
             <Link href={localePath(locale, "/legal/terms")}>{c.footer.terms}</Link>
-            <Link href="/admin">{c.footer.admin}</Link>
           </nav>
         </div>
       </div>

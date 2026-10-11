@@ -38,8 +38,17 @@ export type Copy = {
   meta: { title: string; description: string };
   nav: {
     packs: string; process: string; interview: string; why: string;
-    founder: string; reviews: string; faq: string; track: string; book: string;
+    founder: string; reviews: string; faq: string; contact: string; track: string; book: string;
     switchTo: string; switchLabel: string; sectionsLabel: string;
+    menu: string; closeMenu: string; menuLabel: string;
+  };
+  contact: {
+    label: string; h2: string; h2em: string; lead: string;
+    name: string; email: string; topic: string; topics: string[];
+    message: string; placeholder: string; send: string;
+    sentTitle: string; sentBody: string; another: string;
+    direct: string; replyTime: string; privacy: string;
+    errors: { name: string; email: string; body: string; server: string };
   };
   hero: {
     label: string; h1a: string; h1em: string; sub: string;
@@ -64,7 +73,8 @@ export type Copy = {
   };
   human: {
     label: string; h2: string; h2em: string; intro: string;
-    aiTitle: string; ai: string[]; usTitle: string; us: string[];
+    aiTitle: string; usTitle: string;
+    matrix: { row: string; ai: boolean; us: boolean }[];
     verdict: string; cta: string;
   };
   video: { label: string; h2: string; body: string; play: string; caption: string; close: string; captions: string; captionsNote: string };
@@ -140,14 +150,34 @@ const en: Copy = {
   },
   nav: {
     packs: "Packs", process: "How it works", interview: "Mock interview", why: "Why a human",
-    founder: "Founder", reviews: "Reviews", faq: "FAQ", track: "Track my order", book: "Book",
+    founder: "Founder", reviews: "Reviews", faq: "FAQ", contact: "Contact", track: "Track my order", book: "Book",
     switchTo: "Français", switchLabel: "Language", sectionsLabel: "Sections",
+    menu: "Menu", closeMenu: "Close menu", menuLabel: "Site menu",
+  },
+  contact: {
+    label: "Contact",
+    h2: "Ask before you", h2em: "book.",
+    lead: "A real person reads this and answers the same day.",
+    name: "Your name", email: "Your email", topic: "About",
+    topics: ["Choosing a pack", "The mock interview", "CV or LinkedIn", "Student / PFE", "Payment", "Something else"],
+    message: "Your question", placeholder: "The role you're after, and what you're unsure about.",
+    send: "Send the question",
+    sentTitle: "Sent.", sentBody: "You'll have an answer today, from the recruiter, not a robot.",
+    another: "Ask something else",
+    direct: "Or write to us directly", replyTime: "Same-day reply, every day.",
+    privacy: "Your message is stored with us and never shared. Nothing else is collected.",
+    errors: {
+      name: "Tell us your name.",
+      email: "We need an email to answer you.",
+      body: "Say a little more, so the answer is worth reading.",
+      server: "That didn't send. Try again, or write to contact@recrutini.tn.",
+    },
   },
   hero: {
     label: "CV · LinkedIn · Mock interviews · Tunis",
     h1a: "Your CV and your interview, prepared with",
     h1em: "a real recruiter.",
-    sub: "Nobody tells you why you didn't get the job. We will: honest feedback on your CV, your LinkedIn and a real mock interview, from a recruiter who has run 800+ of them.",
+    sub: "Honest feedback on your CV, your LinkedIn and a real mock interview, from a recruiter who has run 800+ of them.",
     cta: "Book a session", cta2: "Play",
     note: "From 20 dt · Free for students hunting a PFE · We reply the same day",
     panelLabel: "Mock interview", panelNum: "50 min",
@@ -158,15 +188,15 @@ const en: Copy = {
   intro: {
     label: "Recrutini",
     h2: "Know what's holding you back.", h2em: "Then fix it.",
-    lead: "Get honest recruiter feedback on your CV, LinkedIn and interview. We'll coach you through your weaknesses, help you improve, and prepare you to perform better next time, backed by 800+ interviews. And it doesn't stop there: we become your partner for life, there for every application and every interview that follows.",
+    lead: "A recruiter reads your CV, runs your interview, and tells you exactly what to change. Then we stay: your partner for every application that follows.",
   },
   reasons: {
     label: "Why Recrutini",
     h2: "Three reasons", h2em: "to book with a recruiter.",
     items: [
-      { k: "01 · Experience", t: "800+ interviews, hiring side", b: "Four years reading applications and deciding who moves forward, in Tunisia and the MENA region, in Germany, Spain and France. The questions you get are the ones that role really gets." },
-      { k: "02 · Honesty", t: "Feedback nobody else gives you", b: "Right after the interview, in the session, then in writing. Which line a hiring manager stops at, and why an answer was correct and still unconvincing." },
-      { k: "03 · No risk", t: "You pay after we confirm", b: "Pick a slot, we confirm it, then you get the bank details. No card, no deposit. Cancel free up to 12h before, and students hunting a PFE pay nothing at all." },
+      { k: "01 · Experience", t: "800+ interviews, hiring side", b: "Four years deciding who moves forward, across four markets." },
+      { k: "02 · Honesty", t: "Feedback nobody else gives you", b: "The line a hiring manager stops at, and why a correct answer still lost." },
+      { k: "03 · No risk", t: "You pay after we confirm", b: "No card, no deposit, free cancellation, and nothing at all for PFE students." },
     ],
   },
   proof: {
@@ -174,8 +204,8 @@ const en: Copy = {
     leadStrong: "This one is run from the other side of the table.",
     stats: [
       ["800+", "interviews run from the hiring side"],
-      ["4 markets", "Tunisia and MENA, Germany, Spain, France"],
-      ["Right after", "feedback and coaching, then follow-up for every question"],
+      ["International experience", "Tunisia · Germany · Spain · France"],
+      ["Premium, personalised", "one session built around you, never a template"],
     ],
     note: "We can't promise you the job. We can make sure your CV and interview don't cost you the opportunity.",
   },
@@ -257,18 +287,16 @@ const en: Copy = {
     label: "Why a human",
     h2: "Use AI.", h2em: "Then talk to someone who has hired.",
     intro: "AI is good at first drafts. We use it too. It has just never sat where a recruiter sits.",
-    aiTitle: "AI is good at",
-    ai: [
-      "Drafting a CV in seconds",
-      "Suggesting an answer to any question",
-      "Making a paragraph sound smooth",
-    ],
-    usTitle: "Only a recruiter can tell you",
-    us: [
-      "Why your last application was rejected",
-      "Which line on your CV a hiring manager stops at",
-      "That your answer was correct, and still unconvincing",
-      "The follow-up question nobody asks you in practice",
+    aiTitle: "AI",
+    usTitle: "A recruiter",
+    matrix: [
+      { row: "Draft a CV in seconds", ai: true, us: true },
+      { row: "Make a paragraph sound smooth", ai: true, us: true },
+      { row: "Suggest an answer to any question", ai: true, us: true },
+      { row: "Tell you why you were rejected", ai: false, us: true },
+      { row: "Know the line a hiring manager stops at", ai: false, us: true },
+      { row: "Hear that a correct answer still missed", ai: false, us: true },
+      { row: "Ask the follow-up nobody practises", ai: false, us: true },
     ],
     verdict: "Human judgment, with technology doing the boring parts.",
     cta: "Book a mock interview",
@@ -288,7 +316,7 @@ const en: Copy = {
       "Almost nobody is ever told why they were rejected. That is what a session gives you.",
     ],
     abroadTitle: "Applying abroad, or elsewhere in the region?",
-    abroadBody: "I recruit across the MENA region, and in Germany, Spain and France. They do not read a CV the same way. Your file is built for the market you are targeting, not translated into it.",
+    abroadBody: "Tunisia, MENA, Germany, Spain and France do not read a CV the same way. Your file is built for the market you target, not translated into it.",
     credentials: FOUNDER.credentials,
     stats: FOUNDER.stats.map(([a, b]) => [a, b]),
     quote: "We can't promise you the job. We can make sure your CV and interview don't cost you the opportunity.",
@@ -303,10 +331,10 @@ const en: Copy = {
     label: "FAQ", h2: "Questions", h2em: "candidates ask.",
     sub: "Anything else, write to us. We answer within a day.",
     items: [
-      { q: "20 dt seems low. Is the work any good?", a: "The price is deliberate: we want serious HR coaching to be within reach of candidates here while we build our track record in Tunisia. The work is done by someone who reads CVs on the hiring side for a living. Judge it on the first draft, and revisions are included." },
+      { q: "20 dt seems low. Is the work any good?", a: "Deliberately low while we build our track record in Tunisia. The work is done by someone who reads CVs on the hiring side for a living, and students hunting a PFE pay nothing." },
       { q: "How do I pay?", a: "Book first, pay after. Your file page shows the bank details and your reference: transfer or D17, and we confirm the same day. Your slot is held 48 hours." },
       { q: "Can the session be in Arabic?", a: "Yes. Sessions and written reports come in English, French or Arabic. You pick when you book." },
-      { q: "I'm applying abroad. Can you help?", a: "That is where this helps most. We recruit across the MENA region and in Germany, Spain and France, and none of them read a CV the same way. Your file is built for the market you target, not translated into it." },
+      { q: "I'm applying abroad. Can you help?", a: "That is where this helps most. None of those markets read a CV the same way. Your file is built for the one you target, not translated into it." },
       { q: "What happens to my documents?", a: "They stay with the recruiter on your file and are deleted on request. Recordings go to you only. The privacy page has the details." },
     ],
   },
@@ -440,14 +468,34 @@ const fr: Copy = {
   },
   nav: {
     packs: "Formules", process: "Comment ça marche", interview: "Entretien blanc", why: "Pourquoi un humain",
-    founder: "Fondateur", reviews: "Avis", faq: "FAQ", track: "Suivre ma commande", book: "Réserver",
+    founder: "Fondateur", reviews: "Avis", faq: "FAQ", contact: "Contact", track: "Suivre ma commande", book: "Réserver",
     switchTo: "English", switchLabel: "Langue", sectionsLabel: "Sections",
+    menu: "Menu", closeMenu: "Fermer le menu", menuLabel: "Menu du site",
+  },
+  contact: {
+    label: "Contact",
+    h2: "Une question avant de", h2em: "réserver ?",
+    lead: "Une vraie personne lit votre message et répond le jour même.",
+    name: "Votre nom", email: "Votre e-mail", topic: "Sujet",
+    topics: ["Choisir une formule", "L'entretien blanc", "CV ou LinkedIn", "Étudiant / PFE", "Paiement", "Autre chose"],
+    message: "Votre question", placeholder: "Le poste que vous visez, et ce sur quoi vous hésitez.",
+    send: "Envoyer la question",
+    sentTitle: "C'est envoyé.", sentBody: "Vous aurez une réponse aujourd'hui, du recruteur, pas d'un robot.",
+    another: "Poser une autre question",
+    direct: "Ou écrivez-nous directement", replyTime: "Réponse le jour même, tous les jours.",
+    privacy: "Votre message reste chez nous et n'est jamais partagé. Rien d'autre n'est collecté.",
+    errors: {
+      name: "Dites-nous votre nom.",
+      email: "Il nous faut un e-mail pour vous répondre.",
+      body: "Donnez un peu plus de détails, la réponse n'en sera que meilleure.",
+      server: "L'envoi a échoué. Réessayez, ou écrivez à contact@recrutini.tn.",
+    },
   },
   hero: {
     label: "CV · LinkedIn · Entretiens blancs · Tunis",
     h1a: "Votre CV et votre entretien, préparés avec",
     h1em: "un vrai recruteur.",
-    sub: "Personne ne vous dit pourquoi vous n'avez pas eu le poste. Nous, si : un retour honnête sur votre CV, votre LinkedIn et un vrai entretien blanc, par un recruteur qui en a mené plus de 800.",
+    sub: "Un retour honnête sur votre CV, votre LinkedIn et un vrai entretien blanc, par un recruteur qui en a mené plus de 800.",
     cta: "Réserver une session", cta2: "Lecture",
     note: "À partir de 20 dt · Gratuit pour les étudiants en PFE · Réponse le jour même",
     panelLabel: "Entretien blanc", panelNum: "50 min",
@@ -458,15 +506,15 @@ const fr: Copy = {
   intro: {
     label: "Recrutini",
     h2: "Sachez ce qui vous freine.", h2em: "Puis corrigez-le.",
-    lead: "Un retour honnête de recruteur sur votre CV, votre LinkedIn et votre entretien. Nous vous accompagnons sur vos points faibles, nous vous aidons à progresser et nous vous préparons à faire mieux la prochaine fois, fort de plus de 800 entretiens. Et ça ne s'arrête pas là : nous devenons votre partenaire à vie, présents pour chaque candidature et chaque entretien qui suivent.",
+    lead: "Un recruteur lit votre CV, mène votre entretien, et vous dit précisément quoi changer. Puis on reste : votre partenaire pour chaque candidature qui suit.",
   },
   reasons: {
     label: "Pourquoi Recrutini",
     h2: "Trois raisons", h2em: "de réserver avec un recruteur.",
     items: [
-      { k: "01 · Expérience", t: "800+ entretiens, côté recruteur", b: "Quatre ans à lire des candidatures et à décider qui passe à l'étape suivante, en Tunisie et dans la région MENA, en Allemagne, en Espagne et en France. Les questions que vous recevez sont celles qu'on pose vraiment pour ce poste." },
-      { k: "02 · Franchise", t: "Le retour que personne d'autre ne vous donne", b: "Juste après l'entretien, dans la séance, puis par écrit. La ligne sur laquelle un recruteur s'arrête, et pourquoi une réponse juste n'a pas convaincu." },
-      { k: "03 · Sans risque", t: "Vous payez après confirmation", b: "Vous choisissez un créneau, nous le confirmons, puis vous recevez le RIB. Ni carte bancaire, ni acompte. Annulation libre jusqu'à 12 h avant, et les étudiants en recherche de PFE ne paient rien." },
+      { k: "01 · Expérience", t: "800+ entretiens, côté recruteur", b: "Quatre ans à décider qui passe à l'étape suivante, sur quatre marchés." },
+      { k: "02 · Franchise", t: "Le retour que personne d'autre ne vous donne", b: "La ligne sur laquelle un recruteur s'arrête, et pourquoi une réponse juste a perdu." },
+      { k: "03 · Sans risque", t: "Vous payez après confirmation", b: "Ni carte, ni acompte, annulation libre, et rien du tout pour les étudiants en PFE." },
     ],
   },
   proof: {
@@ -474,8 +522,8 @@ const fr: Copy = {
     leadStrong: "Celui-ci est tenu de l'autre côté de la table.",
     stats: [
       ["800+", "entretiens menés côté recruteur"],
-      ["4 marchés", "Tunisie et MENA, Allemagne, Espagne, France"],
-      ["Tout de suite", "retour et coaching, puis suivi pour chaque question"],
+      ["Expérience internationale", "Tunisie · Allemagne · Espagne · France"],
+      ["Premium, personnalisé", "une séance construite pour vous, jamais un modèle"],
     ],
     note: "Nous ne pouvons pas vous promettre le poste. Nous pouvons faire en sorte que votre CV et votre entretien ne vous le fassent pas perdre.",
   },
@@ -557,18 +605,16 @@ const fr: Copy = {
     label: "Pourquoi un humain",
     h2: "Utilisez l'IA.", h2em: "Puis parlez à quelqu'un qui a déjà recruté.",
     intro: "L'IA est douée pour les premiers jets. Nous l'utilisons aussi. Elle ne s'est juste jamais assise à la place du recruteur.",
-    aiTitle: "L'IA sait très bien",
-    ai: [
-      "Rédiger un CV en quelques secondes",
-      "Proposer une réponse à n'importe quelle question",
-      "Rendre un paragraphe fluide",
-    ],
-    usTitle: "Seul un recruteur peut vous dire",
-    us: [
-      "Pourquoi votre dernière candidature a été écartée",
-      "La ligne de votre CV sur laquelle un recruteur s'arrête",
-      "Que votre réponse était juste, et pourtant peu convaincante",
-      "La relance que personne ne vous pose à l'entraînement",
+    aiTitle: "L'IA",
+    usTitle: "Un recruteur",
+    matrix: [
+      { row: "Rédiger un CV en quelques secondes", ai: true, us: true },
+      { row: "Rendre un paragraphe fluide", ai: true, us: true },
+      { row: "Proposer une réponse à n'importe quelle question", ai: true, us: true },
+      { row: "Vous dire pourquoi vous avez été écarté", ai: false, us: true },
+      { row: "Connaître la ligne sur laquelle un recruteur s'arrête", ai: false, us: true },
+      { row: "Entendre qu'une réponse juste n'a pas convaincu", ai: false, us: true },
+      { row: "Poser la relance que personne ne vous pose", ai: false, us: true },
     ],
     verdict: "Le jugement humain, avec la technologie pour les tâches ingrates.",
     cta: "Réserver un entretien blanc",
@@ -596,7 +642,7 @@ const fr: Copy = {
     stats: [
       ["4 ans", "d'expérience en recrutement"],
       ["800+", "entretiens menés"],
-      ["4 marchés", "Tunisie · MENA · Allemagne · Espagne · France"],
+      ["International", "Tunisie · MENA · Allemagne · Espagne · France"],
     ],
     quote: "Nous ne pouvons pas vous promettre le poste. Nous pouvons faire en sorte que votre CV et votre entretien ne vous le fassent pas perdre.",
     cta: "Réserver avec Hamza", linkedin: "Profil complet sur LinkedIn",

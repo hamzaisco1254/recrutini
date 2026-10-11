@@ -2334,9 +2334,6 @@ section[id] {
   .head-nav {
     display: none;
   }
-  .section-rail {
-    display: flex;
-  }
 }
 @media (max-width: 420px) {
   .lang-pick a {
@@ -3504,4 +3501,479 @@ summary:focus-visible {
   .pull {
     margin-top: 26px;
   }
+}
+
+
+/* ---------- The menu, below the width where seven links fit ----------
+   One button and one panel. The button carries its own state (aria-expanded)
+   and the bars fold into a cross so the control reads the same with the sound
+   off, so to speak. The panel is a sheet under the header rather than a
+   full-screen takeover: the reader keeps the logo, the language switch and the
+   Book button in view the whole time, which is the point of a sticky bar. */
+.menu-btn {
+  display: none;
+  align-items: center;
+  gap: 9px;
+  height: 40px;
+  padding: 0 14px 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  flex: none;
+}
+.menu-btn:hover {
+  border-color: rgba(17, 17, 17, 0.32);
+}
+.head-dark .menu-btn {
+  border-color: rgba(247, 246, 242, 0.28);
+  color: #fff;
+}
+.head-dark .menu-btn:hover {
+  border-color: rgba(247, 246, 242, 0.55);
+}
+.menu-bars {
+  width: 18px;
+  height: 14px;
+  position: relative;
+  flex: none;
+}
+.menu-bars i {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  transition: transform 0.22s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.14s linear;
+}
+.menu-bars i:nth-child(1) { top: 0; }
+.menu-bars i:nth-child(2) { top: 6px; }
+.menu-bars i:nth-child(3) { top: 12px; }
+.menu-bars[data-open] i:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.menu-bars[data-open] i:nth-child(2) { opacity: 0; }
+.menu-bars[data-open] i:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+.menu-scrim {
+  position: fixed;
+  inset: 0;
+  top: 0;
+  background: rgba(17, 17, 17, 0.38);
+  z-index: 15;
+  animation: menu-fade 0.18s ease both;
+}
+@keyframes menu-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.menu-panel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 25;
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+  box-shadow: 0 24px 50px -30px rgba(0, 0, 0, 0.5);
+  padding: 10px var(--pad) 20px;
+  max-height: calc(100dvh - 64px);
+  overflow-y: auto;
+  animation: menu-drop 0.22s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+@keyframes menu-drop {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: none; }
+}
+.menu-links {
+  display: flex;
+  flex-direction: column;
+}
+.menu-links a {
+  display: flex;
+  align-items: center;
+  min-height: 52px;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--ink);
+  border-bottom: 1px solid var(--line);
+}
+.menu-links a[data-active="true"] {
+  color: var(--ink);
+}
+.menu-links a[data-active="true"]::before {
+  content: "";
+  width: 4px;
+  height: 20px;
+  background: var(--yellow);
+  border-radius: 2px;
+  margin-right: 12px;
+  margin-left: -16px;
+}
+.menu-foot {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 18px;
+}
+.menu-minor {
+  font-size: 14px;
+  color: var(--muted);
+}
+@media (prefers-reduced-motion: reduce) {
+  .menu-panel,
+  .menu-scrim {
+    animation: none;
+  }
+  .menu-bars i {
+    transition: none;
+  }
+}
+/* Anchors land below the sticky bar rather than under it. */
+#packs, #process, #why, #founder, #reviews, #faq, #contact, #film, #students, #interview {
+  scroll-margin-top: 84px;
+}
+
+/* ---------- Contact ----------
+   A form on the page rather than a mailto and a hope. Two columns on a
+   laptop, one on a phone, and the direct address kept underneath for people
+   who would rather write from their own inbox. */
+.contact-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: clamp(24px, 5vw, 64px);
+  align-items: start;
+  margin-top: 34px;
+}
+.contact-form {
+  display: grid;
+  gap: 16px;
+  background: var(--paper-alt);
+  border-radius: 20px;
+  padding: clamp(20px, 3vw, 30px);
+}
+.contact-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.contact-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.contact-reply {
+  font-size: 14px;
+  color: var(--muted);
+}
+.contact-privacy {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin: -4px 0 0;
+}
+.contact-error {
+  font-size: 14.5px;
+  color: #9a2b2b;
+  margin: 0;
+}
+.contact-direct {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 18px;
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+  font-size: 14.5px;
+  color: var(--muted);
+}
+.contact-done {
+  display: flex;
+  gap: 18px;
+  background: var(--paper-alt);
+  border-radius: 20px;
+  padding: clamp(22px, 3vw, 32px);
+}
+.contact-tick {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--yellow);
+  color: var(--ink);
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  font-weight: 700;
+  flex: none;
+}
+.contact-done-h {
+  font-size: 22px;
+  font-weight: 600;
+  margin: 0 0 6px;
+}
+.contact-done-p {
+  margin: 0 0 12px;
+  color: var(--muted);
+}
+.hp-field {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+select.field {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%),
+    linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: calc(100% - 20px) 55%, calc(100% - 14px) 55%;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+  padding-right: 40px;
+}
+@media (max-width: 860px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 520px) {
+  .contact-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* The drawing beside the contact form: a question answered, in three bars and
+   one reply bubble. Cheaper than a stock photo and truer than one. */
+.contact-note {
+  margin: 0;
+}
+.cn-card {
+  background: var(--ink);
+  border-radius: 20px;
+  padding: 22px 22px 8px;
+  color: var(--paper);
+}
+.cn-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #b9b5aa;
+}
+.cn-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--yellow);
+  flex: none;
+}
+.cn-when {
+  margin-left: auto;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  font-weight: 400;
+}
+.cn-art {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin-top: 16px;
+}
+.contact-note figcaption {
+  font-size: 14px;
+  color: var(--muted);
+  margin-top: 12px;
+}
+.assure-mark svg {
+  display: block;
+}
+
+
+/* The handover, declared last so it wins over the button's own base rule:
+   below the width where the seven links fit, the menu button appears. */
+@media (max-width: 1180px) {
+  .menu-btn {
+    display: inline-flex;
+  }
+}
+@media (max-width: 430px) {
+  .menu-word {
+    display: none;
+  }
+  .menu-btn {
+    padding: 0 11px;
+  }
+}
+
+/* ---------- The numbers, straight after the hero ----------
+   Three figures the site can stand behind, set large enough to be read at a
+   glance and small enough not to shout. They sit on the hero's ink so the
+   opening reads as one block rather than two. */
+.statband {
+  background: var(--ink);
+  color: var(--paper);
+  border-top: 1px solid rgba(247, 246, 242, 0.12);
+}
+.statband-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+  padding-top: 34px;
+  padding-bottom: 36px;
+}
+.statband-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.statband-big {
+  font-size: clamp(30px, 3.6vw, 44px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.statband-small {
+  font-size: 14.5px;
+  line-height: 1.45;
+  color: #b9b5aa;
+  max-width: 30ch;
+}
+@media (max-width: 760px) {
+  .statband-row {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding-top: 26px;
+    padding-bottom: 28px;
+  }
+  .statband-item {
+    /* French runs wider than English here ("Tout de suite"), so the figure
+       keeps its own line rather than fighting the label for one. */
+    gap: 2px;
+  }
+  .statband-big {
+    font-size: 27px;
+  }
+  .statband-small {
+    font-size: 14px;
+  }
+}
+
+/* The pack drawings fill their band and crop cleanly when it shortens on a
+   phone, so the three packs stay tellable apart by shape at any width. */
+.pcard-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.pcard-img {
+  overflow: hidden;
+}
+
+/* ---------- The comparison, as marks rather than two columns of prose ----------
+   A filled dot where the tool can do it, a hollow one where it cannot. The
+   shape of the right-hand column is the whole argument, so it can be read
+   without reading any of the rows. */
+.matrix {
+  margin-top: 40px;
+  border-top: 1px solid rgba(247, 246, 242, 0.18);
+}
+.matrix-head,
+.matrix-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 110px 110px;
+  align-items: center;
+  gap: 12px;
+}
+.matrix-head {
+  padding: 14px 0;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #b9b5aa;
+  text-align: center;
+}
+.matrix-head span:first-child {
+  text-align: left;
+}
+.matrix-head .matrix-us {
+  color: var(--yellow);
+}
+.matrix-row {
+  padding: 15px 0;
+  border-top: 1px solid rgba(247, 246, 242, 0.12);
+  font-size: 16.5px;
+  line-height: 1.4;
+  color: #ebe8e0;
+}
+.matrix-cell {
+  display: flex;
+  justify-content: center;
+}
+.dot {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 2px solid rgba(247, 246, 242, 0.32);
+  display: block;
+}
+.dot-on {
+  background: rgba(247, 246, 242, 0.55);
+  border-color: transparent;
+}
+.dot-us {
+  background: var(--yellow);
+  box-shadow: 0 0 0 5px rgba(255, 210, 47, 0.16);
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+@media (max-width: 620px) {
+  .matrix-head,
+  .matrix-row {
+    grid-template-columns: minmax(0, 1fr) 78px 78px;
+    gap: 6px;
+  }
+  .matrix-row {
+    font-size: 15px;
+  }
+  /* "Un recruteur" is two words in French and must break between them, never
+     inside the second one. */
+  .matrix-head {
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    line-height: 1.25;
+    overflow-wrap: normal;
+    word-break: keep-all;
+  }
+}
+
+/* The three reasons keep a small drawing above the number. */
+.glass-art {
+  width: 100%;
+  max-width: 150px;
+  height: auto;
+  display: block;
+  margin-bottom: 18px;
+}
+
+/* The stat band takes phrases as well as figures: a short one keeps the big
+   numeral size, a long one steps down so the three still sit on one line. */
+.statband-big[data-kind="phrase"] {
+  font-size: clamp(21px, 2.2vw, 27px);
+  line-height: 1.15;
 }

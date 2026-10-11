@@ -379,3 +379,33 @@ export function notifyAdmin(order: OrderLike, slot?: { date: string; time: strin
     ],
   });
 }
+
+/** A question from the contact section, forwarded to the recruiter's inbox. */
+export function notifyMessage(m: {
+  id: string;
+  name: string;
+  email: string;
+  topic?: string | null;
+  body: string;
+  locale: string;
+}) {
+  return send({
+    to: BRAND.email,
+    subject: `New question · ${m.name}${m.topic ? ` · ${m.topic}` : ""}`,
+    preheader: m.body.slice(0, 120),
+    blocks: [
+      { t: "h", v: "New question" },
+      {
+        t: "rows",
+        v: [
+          ["Name", m.name],
+          ["Email", m.email],
+          ["Topic", m.topic || "—"],
+          ["Language", m.locale.toUpperCase()],
+        ],
+      },
+      { t: "p", v: esc(m.body).replace(/\n/g, "<br>") },
+      { t: "note", v: `Reply straight to ${m.email}. Saved as ${m.id}.` },
+    ],
+  });
+}

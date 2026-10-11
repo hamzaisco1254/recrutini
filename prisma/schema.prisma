@@ -46,45 +46,47 @@ enum BookingStatus {
 }
 
 model Order {
-  id            String        @id @default(cuid())
-  ref           String        @unique
-  name          String
-  email         String
-  phone         String?
-  pack          Pack
-  amountDt      Int
-  status        OrderStatus   @default(NEW)
-  payment       PaymentStatus @default(UNPAID)
-  targetRole    String?
-  cvLink        String?
-  linkedinUrl   String?
-  jobPostingUrl String?
-  notes         String?
-  adminNotes    String?
-  isStudent      Boolean      @default(false)
+  id             String        @id @default(cuid())
+  ref            String        @unique
+  name           String
+  email          String
+  phone          String?
+  pack           Pack
+  amountDt       Int
+  status         OrderStatus   @default(NEW)
+  payment        PaymentStatus @default(UNPAID)
+  targetRole     String?
+  cvLink         String?
+  linkedinUrl    String?
+  jobPostingUrl  String?
+  notes          String?
+  adminNotes     String?
+  isStudent      Boolean       @default(false)
   studentCardUrl String?
-  /** Language of the site when the order was placed; every email follows it. */
-  locale        String        @default("en")
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
-  booking       Booking?
+  /**
+   * Language of the site when the order was placed; every email follows it.
+   */
+  locale         String        @default("en")
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  booking        Booking?
 
   @@index([email])
   @@index([createdAt])
 }
 
 model Booking {
-  id        String        @id @default(cuid())
-  orderId   String        @unique
-  order     Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  date      String // YYYY-MM-DD in Africa/Tunis
-  time      String // HH:mm
-  language  Language      @default(EN)
-  status    BookingStatus @default(PENDING)
+  id         String        @id @default(cuid())
+  orderId    String        @unique
+  order      Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  date       String // YYYY-MM-DD in Africa/Tunis
+  time       String // HH:mm
+  language   Language      @default(EN)
+  status     BookingStatus @default(PENDING)
   meetingUrl String?
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
-  report    Report?
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+  report     Report?
 
   @@index([date, time])
 }
@@ -130,4 +132,25 @@ model Review {
   createdAt DateTime     @default(now())
 
   @@index([status, createdAt])
+}
+
+/// A question asked from the contact section. Stored first, emailed after, so
+/// nothing is lost when mail is not configured or the provider is having a day.
+model Message {
+  id        String        @id @default(cuid())
+  name      String
+  email     String
+  topic     String?
+  body      String
+  locale    String        @default("en")
+  status    MessageStatus @default(NEW)
+  createdAt DateTime      @default(now())
+
+  @@index([status, createdAt])
+}
+
+enum MessageStatus {
+  NEW
+  ANSWERED
+  ARCHIVED
 }
